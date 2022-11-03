@@ -1,4 +1,4 @@
-module github.com/pluralsh/golly
+module github.com/pluralsh/polly
 
 go 1.19
 

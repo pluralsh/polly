@@ -1,6 +1,6 @@
 package algorithms
 
-import "github.com/pluralsh/golly/containers"
+import "github.com/pluralsh/polly/containers"
 
 type Prober[T any] interface {
 	Push(val T)
