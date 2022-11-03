@@ -1,2 +1,3 @@
 # golly
-go utilities for plural
+
+Named in honor of Facebook's c++ library folly, but for go.
