@@ -100,3 +100,9 @@ func TopSort[T comparable](vals []T, neighbors func(T) ([]T, error)) ([]T, error
 
 	return res, nil
 }
+
+func TopsortGraph[T comparable](g containers.Graph[T]) ([]T, error) {
+	return TopSort[T](g.Nodes(), func(n T) ([]T, error) {
+		return g.Neighbors(n), nil
+	})
+}
