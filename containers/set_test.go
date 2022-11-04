@@ -57,12 +57,30 @@ func TestUnion(t *testing.T) {
 	assert.True(t, un.Equal(ToSet([]int{1, 2, 3, 5})))
 }
 
+func TestUnionVariadic(t *testing.T) {
+	s := ToSet([]int{1, 3, 5})
+	o := ToSet([]int{2, 3, 5})
+	p := ToSet([]int{6, 7})
+	un := Union(s, o, p)
+
+	assert.True(t, un.Equal(ToSet([]int{1, 2, 3, 5, 6, 7})))
+}
+
 func TestIntersect(t *testing.T) {
 	s := ToSet([]int{1, 3, 5})
 	o := ToSet([]int{2, 3, 5})
 	in := s.Intersect(o)
 
 	assert.True(t, in.Equal(ToSet([]int{3, 5})))
+}
+
+func TestIntersectVariadic(t *testing.T) {
+	s := ToSet([]int{1, 3, 5})
+	o := ToSet([]int{2, 3, 5})
+	p := ToSet([]int{3, 6, 7})
+	in := Intersect(s, o, p)
+
+	assert.True(t, in.Equal(ToSet([]int{3})))
 }
 
 func TestSymmetricDifference(t *testing.T) {
