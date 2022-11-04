@@ -52,3 +52,38 @@ func (s Set[V]) Equal(other Set[V]) bool {
 
 	return true
 }
+
+func (s Set[V]) Difference(other Set[V]) Set[V] {
+	new := NewSet[V]()
+	for v, _ := range s {
+		if !other.Has(v) {
+			new.Add(v)
+		}
+	}
+	return new
+}
+
+func (s Set[V]) Union(other Set[V]) Set[V] {
+	new := ToSet(s.List())
+	for v, _ := range other {
+		new.Add(v)
+	}
+	return new
+}
+
+func (s Set[V]) Intersect(other Set[V]) Set[V] {
+	res := NewSet[V]()
+	for v, _ := range s {
+		if other.Has(v) {
+			res.Add(v)
+		}
+	}
+
+	return res
+}
+
+func (s Set[V]) SymmetricDifference(other Set[V]) Set[V] {
+	un := s.Union(other)
+	in := s.Intersect(other)
+	return un.Difference(in)
+}

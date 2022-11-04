@@ -40,3 +40,35 @@ func TestEqual(t *testing.T) {
 	assert.False(t, s.Equal(ToSet([]int{1, 2, 3, 4})))
 	assert.False(t, s.Equal(ToSet([]int{1, 2, 5})))
 }
+
+func TestDifference(t *testing.T) {
+	s := ToSet([]int{1, 3, 5})
+	o := ToSet([]int{2, 3, 5})
+	diff := s.Difference(o)
+
+	assert.True(t, diff.Equal(ToSet([]int{1})))
+}
+
+func TestUnion(t *testing.T) {
+	s := ToSet([]int{1, 3, 5})
+	o := ToSet([]int{2, 3, 5})
+	un := s.Union(o)
+
+	assert.True(t, un.Equal(ToSet([]int{1, 2, 3, 5})))
+}
+
+func TestIntersect(t *testing.T) {
+	s := ToSet([]int{1, 3, 5})
+	o := ToSet([]int{2, 3, 5})
+	in := s.Intersect(o)
+
+	assert.True(t, in.Equal(ToSet([]int{3, 5})))
+}
+
+func TestSymmetricDifference(t *testing.T) {
+	s := ToSet([]int{1, 3, 5})
+	o := ToSet([]int{2, 3, 5})
+	sd := s.SymmetricDifference(o)
+
+	assert.True(t, sd.Equal(ToSet([]int{1, 2})))
+}
