@@ -19,3 +19,11 @@ func TestMap(t *testing.T) {
 func TestFilter(t *testing.T) {
 	assert.Equal(t, Filter([]int{1, 2, 3}, func(v int) bool { return v == 2 }), []int{2})
 }
+
+func TestIndex(t *testing.T) {
+	ind := Index([]int{1, 3, 6}, func(v int) bool { return v == 3 })
+	assert.Equal(t, ind, 1)
+
+	ind = Index([]int{1, 3, 6}, func(v int) bool { return v > 6 })
+	assert.Equal(t, ind, -1)
+}

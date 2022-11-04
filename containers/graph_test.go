@@ -20,5 +20,5 @@ func TestLooksLikeAGraph(t *testing.T) {
 	assert.Equal(t, g.Neighbors(2), []int{1})
 	assert.Equal(t, g.Neighbors(3), []int{})
 
-	assert.Equal(t, g.Nodes(), []int{1, 2, 3, 4})
+	assert.True(t, ToSet(g.Nodes()).Equal(ToSet([]int{1, 2, 3, 4})))
 }

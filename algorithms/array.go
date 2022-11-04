@@ -30,3 +30,12 @@ func Filter[T any](arr []T, f func(T) bool) []T {
 
 	return res
 }
+
+func Index[T any](arr []T, f func(T) bool) int {
+	for i, v := range arr {
+		if f(v) {
+			return i
+		}
+	}
+	return -1
+}
