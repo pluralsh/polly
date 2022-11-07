@@ -6,8 +6,9 @@ import (
 
 type Set[V comparable] map[V]bool
 
-// NewSet Constructor to create new set
-// Example:-  NewSet(int)() to create a int set
+// NewSet constructor to create new set
+// Example:
+// NewSet(int)() to create a int set
 // NewSet(string)() to create a string set
 func NewSet[V comparable]() Set[V] {
 	return map[V]bool{}
@@ -31,27 +32,27 @@ func (s Set[V]) Add(v V) {
 	s[v] = true
 }
 
-// Has Method to check if element exists in set
+// Has checks if element exists in set
 func (s Set[V]) Has(v V) bool {
 	return s[v]
 }
 
-// Remove Delete values from set
+// Remove deletes values from set
 func (s Set[V]) Remove(v V) {
 	delete(s, v)
 }
 
-// List Method returns the contents as a slice
+// List returns the contents as a slice
 func (s Set[V]) List() []V {
 	return lo.Keys(s)
 }
 
-// Len Length of set
+// Len return length of set
 func (s Set[V]) Len() int {
 	return len(s)
 }
 
-// Equal Returns true if and only if original is equal (as a set) to other.
+// Equal returns true if and only if original is equal (as a set) to other.
 // Two sets are equal if their membership is identical.
 // (In practice, this means same elements, order doesn't matter)
 func (s Set[V]) Equal(other Set[V]) bool {
