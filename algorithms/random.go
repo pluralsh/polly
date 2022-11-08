@@ -36,6 +36,12 @@ func IntnRange(min, max int) int {
 	return rng.rand.Intn(max-min) + min
 }
 
+// Coinflip method
+func Coinflip(num, dem int) bool {
+	r := Intn(dem)
+	return r < num
+}
+
 const (
 	// We omit vowels from the set of available characters to reduce the chances
 	// of "bad words" being formed.
