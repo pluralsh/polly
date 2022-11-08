@@ -4,7 +4,7 @@
     "config:base",
     ":dependencyDashboard",
     ":prHourlyLimit4",
-    ":prConcurrentLimit10"
+    ":prConcurrentLimit20"
   ],
   "packageRules": [
     {
@@ -30,6 +30,5 @@
   "labels": [
     "dependencies"
   ],
-  "separateMinorPatch": true,
-  "dependencyDashboardApproval": true
+  "separateMinorPatch": true
 }
