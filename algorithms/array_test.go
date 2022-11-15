@@ -27,3 +27,8 @@ func TestIndex(t *testing.T) {
 	ind = Index([]int{1, 3, 6}, func(v int) bool { return v > 6 })
 	assert.Equal(t, ind, -1)
 }
+
+func TestReduce(t *testing.T) {
+	sum := Reduce([]int{1, 3, 6}, 0, func(v, s int) int { return v + s })
+	assert.Equal(t, sum, 10)
+}
