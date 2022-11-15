@@ -31,6 +31,14 @@ func Filter[T any](arr []T, f func(T) bool) []T {
 	return res
 }
 
+func Reduce[T any, V any](arr []T, acc V, f func(T, V) V) V {
+	res := acc
+	for _, v := range arr {
+		res = f(v, res)
+	}
+	return res
+}
+
 func Index[T any](arr []T, f func(T) bool) int {
 	for i, v := range arr {
 		if f(v) {
