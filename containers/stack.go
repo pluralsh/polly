@@ -15,6 +15,14 @@ func (stack *Stack[T]) Len() int {
 	return stack.pos
 }
 
+func (stack *Stack[T]) List() []T {
+	res := make([]T, stack.pos)
+	for i := 1; i <= stack.pos; i++ {
+		res[i-1] = stack.items[stack.pos-i]
+	}
+	return res
+}
+
 func (stack *Stack[T]) Push(value T) {
 	pos := stack.pos
 	if pos >= len(stack.items) {

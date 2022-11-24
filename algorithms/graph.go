@@ -63,42 +63,39 @@ func BFS[T comparable](initial T, neighbors func(T) ([]T, error), visit func(T) 
 
 func TopSort[T comparable](vals []T, neighbors func(T) ([]T, error)) ([]T, error) {
 	marked := map[T]bool{}
-	res := []T{}
-	wrapped := func(n T) ([]T, error) {
-		ns, err := neighbors(n)
-		if err != nil {
-			return ns, err
+	s := containers.NewStack[T]()
+	for _, v := range vals {
+		if !marked[v] {
+			if err := topsort(v, marked, neighbors, s); err != nil {
+				return []T{}, err
+			}
 		}
-
-		ns = Filter[T](ns, func(n T) bool {
-			_, ok := marked[n]
-			return !ok
-		})
-		return ns, nil
 	}
 
-	for _, val := range vals {
-		// ignore if already probed (we would have dfs'ed the subgraph already)
-		if _, ok := marked[val]; ok {
-			continue
-		}
-		sublist := []T{}
-		visit := func(n T) error {
-			marked[n] = true
-			sublist = append(sublist, n)
-			return nil
-		}
+	return s.List(), nil
+}
 
-		// launch a dfs of the unprobed section of the graph
-		if err := DFS(val, wrapped, visit); err != nil {
-			return res, err
-		}
+func topsort[T comparable](v T, visited map[T]bool, neighbors func(T) ([]T, error), res *containers.Stack[T]) (err error) {
+	if visited[v] {
+		return
+	}
+	visited[v] = true
 
-		// since no found items were reached after prior dfs, we know it's safe to prepend (but not necessary append)
-		res = append(sublist, res...)
+	nebs, err := neighbors(v)
+	if err != nil {
+		return
 	}
 
-	return res, nil
+	for _, neb := range nebs {
+		if !visited[neb] {
+			if err := topsort(neb, visited, neighbors, res); err != nil {
+				return err
+			}
+		}
+	}
+
+	res.Push(v)
+	return
 }
 
 func TopsortGraph[T comparable](g containers.Graph[T]) ([]T, error) {
