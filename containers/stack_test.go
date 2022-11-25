@@ -25,3 +25,16 @@ func TestLooksLikeAStack(t *testing.T) {
 
 	assert.True(t, s.Empty())
 }
+
+func TestStackToList(t *testing.T) {
+	s := NewStack[int]()
+	s.Push(1)
+	s.Push(3)
+	s.Push(2)
+
+	assert.Equal(t, s.List(), []int{2, 3, 1})
+	s.Pop()
+	assert.Equal(t, s.List(), []int{3, 1})
+	s.Pop()
+	assert.Equal(t, s.List(), []int{1})
+}
