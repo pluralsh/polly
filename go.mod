@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/cenkalti/backoff v2.2.1+incompatible
+	github.com/cenkalti/backoff/v4 v4.2.0
 	github.com/samber/lo v1.33.0
 	github.com/stretchr/testify v1.8.1
 )
