@@ -2,11 +2,11 @@ package retry
 
 import "time"
 
-func NewExponential(start, max int64, mult float64) *Exponential {
-	return &Exponential{start: float64(start), max: float64(max), mult: mult}
+func NewExponential(start, max time.Duration, mult float64) *Exponential {
+	return &Exponential{start: start, max: max, mult: mult}
 }
 
-func NewConstant(duration, count int) *Constant {
+func NewConstant(duration time.Duration, count int) *Constant {
 	return &Constant{dur: duration, max: count}
 }
 

@@ -13,14 +13,14 @@ type BackoffAlgorithm interface {
 
 type Exponential struct {
 	mult  float64
-	max   float64
-	start float64
+	max   time.Duration
+	start time.Duration
 }
 
 func (exp *Exponential) Backoff(iter int) time.Duration {
-	dur := algorithms.Max(exp.start*exp.mult, exp.max)
-	exp.start = dur
-	return time.Duration(exp.start)
+	dur := algorithms.Max(float64(exp.start)*exp.mult, float64(exp.max))
+	exp.start = time.Duration(dur)
+	return exp.start
 }
 
 func (exp *Exponential) Continue() bool {
@@ -33,13 +33,13 @@ func (exp *Exponential) Continue() bool {
 
 type Constant struct {
 	max   int
-	dur   int
+	dur   time.Duration
 	count int
 }
 
 func (con *Constant) Backoff(iter int) time.Duration {
 	con.count++
-	return time.Duration(con.dur)
+	return con.dur
 }
 
 func (con *Constant) Continue() bool {
