@@ -9,6 +9,9 @@ build: .PHONY # compiles
 test: .PHONY # tests the codebase
 	go test ./...
 
+fix: .PHONY ## fix issues found by linters
+	golangci-lint run --fix ./...
+
 release-vsn: # tags and pushes a new release
 	@read -p "Version: " tag; \
 	git checkout main; \

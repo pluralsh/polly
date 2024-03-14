@@ -22,7 +22,7 @@ func TestDFS(t *testing.T) {
 		return nil
 	}
 
-	DFS(1, neighbors, visit)
+	_ = DFS(1, neighbors, visit)
 	assert.Equal(t, res, []int{1, 2, 4, 3})
 }
 
@@ -42,7 +42,7 @@ func TestBFS(t *testing.T) {
 		return nil
 	}
 
-	BFS(1, neighbors, visit)
+	_ = BFS(1, neighbors, visit)
 	assert.Equal(t, res, []int{1, 2, 3, 4})
 }
 

@@ -60,7 +60,7 @@ func (s Set[V]) Equal(other Set[V]) bool {
 		return false
 	}
 
-	for k, _ := range s {
+	for k := range s {
 		if !other.Has(k) {
 			return false
 		}
@@ -77,7 +77,7 @@ func (s Set[V]) Equal(other Set[V]) bool {
 // s2.Difference(s1) = {a4, a5}
 func (s Set[V]) Difference(other Set[V]) Set[V] {
 	new := NewSet[V]()
-	for v, _ := range s {
+	for v := range s {
 		if !other.Has(v) {
 			new.Add(v)
 		}
@@ -93,7 +93,7 @@ func (s Set[V]) Difference(other Set[V]) Set[V] {
 // s2.Union(s1) = {a1, a2, a3, a4}
 func (s Set[V]) Union(other Set[V]) Set[V] {
 	new := ToSet(s.List())
-	for v, _ := range other {
+	for v := range other {
 		new.Add(v)
 	}
 	return new
@@ -104,7 +104,7 @@ func Union[V comparable](sets ...Set[V]) Set[V] {
 
 	// use nested loops for a bit of extra efficiency
 	for _, s := range sets {
-		for v, _ := range s {
+		for v := range s {
 			res.Add(v)
 		}
 	}
@@ -119,7 +119,7 @@ func Union[V comparable](sets ...Set[V]) Set[V] {
 // s1.Intersect(s2) = {a2}
 func (s Set[V]) Intersect(other Set[V]) Set[V] {
 	res := NewSet[V]()
-	for v, _ := range s {
+	for v := range s {
 		if other.Has(v) {
 			res.Add(v)
 		}
@@ -134,7 +134,7 @@ func Intersect[V comparable](sets ...Set[V]) Set[V] {
 		return res
 	}
 	first, rest := sets[0], sets[1:]
-	for v, _ := range first {
+	for v := range first {
 		if lo.EveryBy(rest, func(s Set[V]) bool { return s.Has(v) }) {
 			res.Add(v)
 		}

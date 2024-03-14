@@ -24,11 +24,7 @@ func (exp *Exponential) Backoff(iter int) time.Duration {
 }
 
 func (exp *Exponential) Continue() bool {
-	if exp.max <= exp.start {
-		return false
-	}
-
-	return true
+	return exp.max > exp.start
 }
 
 type Constant struct {
