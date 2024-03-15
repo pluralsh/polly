@@ -1,5 +1,13 @@
 package algorithms
 
+func MapValues[K comparable, V any](m map[K]V) []V {
+	s := make([]V, 0, len(m))
+	for _, v := range m {
+		s = append(s, v)
+	}
+	return s
+}
+
 func Merge(maps ...map[string]interface{}) map[string]interface{} {
 	res := maps[0]
 	for _, m := range maps[1:] {
