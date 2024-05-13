@@ -8,6 +8,14 @@ func MapValues[K comparable, V any](m map[K]V) []V {
 	return s
 }
 
+func MapKeys[K comparable, V any](m map[K]V) []K {
+	s := make([]K, 0, len(m))
+	for k := range m {
+		s = append(s, k)
+	}
+	return s
+}
+
 func Merge(maps ...map[string]interface{}) map[string]interface{} {
 	res := maps[0]
 	for _, m := range maps[1:] {
