@@ -2,6 +2,8 @@ package template
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
@@ -17,7 +19,7 @@ func include(name string, data interface{}, tpl *template.Template) (string, err
 	return buf.String(), nil
 }
 
-// RenderTpl renders the given Helm .tpl template with the provided bindings.
+// RenderTpl renders the given Helm .tpl template with the provided bindings and automatically includes additional templates from a directory.
 func RenderTpl(input []byte, bindings map[string]interface{}) ([]byte, error) {
 	// Create a new template and add the sprig functions and the include function.
 	tpl := template.New("gotpl")
@@ -31,6 +33,28 @@ func RenderTpl(input []byte, bindings map[string]interface{}) ([]byte, error) {
 	tpl, err := tpl.Parse(string(input))
 	if err != nil {
 		return nil, err
+	}
+
+	// Load and parse all templates from the directory.
+	templateDir := filepath.Join(".")
+	files, err := os.ReadDir(templateDir)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+		filePath := filepath.Join(templateDir, file.Name())
+		content, err := os.ReadFile(filePath)
+		if err != nil {
+			return nil, err
+		}
+		_, err = tpl.New(file.Name()).Parse(string(content))
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// Create a buffer to hold the rendered template.
