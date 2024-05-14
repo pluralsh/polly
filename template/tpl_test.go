@@ -1,6 +1,7 @@
 package template
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,7 +12,8 @@ const (
 )
 
 func TestReverse(t *testing.T) {
-	res, err := RenderTpl([]byte(testTplTemplate), map[string]interface{}{
+	tplFile := filepath.Join("..", "test", "_simple.tpl")
+	res, err := RenderTpl(tplFile, map[string]interface{}{
 		"Template": "template",
 	})
 
