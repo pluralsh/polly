@@ -20,7 +20,14 @@ func include(name string, data interface{}, tpl *template.Template) (string, err
 }
 
 // RenderTpl renders the given Helm .tpl template with the provided bindings and automatically includes additional templates from a directory.
-func RenderTpl(input []byte, bindings map[string]interface{}) ([]byte, error) {
+func RenderTpl(filePath string, bindings map[string]interface{}) ([]byte, error) {
+
+	// Read the input template file.
+	input, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
 	// Create a new template and add the sprig functions and the include function.
 	tpl := template.New("gotpl")
 	tpl.Funcs(sprig.TxtFuncMap()).Funcs(template.FuncMap{
@@ -30,13 +37,13 @@ func RenderTpl(input []byte, bindings map[string]interface{}) ([]byte, error) {
 	})
 
 	// Parse the input template.
-	tpl, err := tpl.Parse(string(input))
+	tpl, err = tpl.Parse(string(input))
 	if err != nil {
 		return nil, err
 	}
 
 	// Load and parse all templates from the directory.
-	templateDir := filepath.Join(".")
+	templateDir := filepath.Join(filepath.Dir(filePath))
 	files, err := os.ReadDir(templateDir)
 	if err != nil {
 		return nil, err
