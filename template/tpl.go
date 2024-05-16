@@ -2,72 +2,47 @@ package template
 
 import (
 	"bytes"
-	"os"
-	"path/filepath"
+	"fmt"
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
 )
 
 // include function to include other templates
-func include(name string, data interface{}, tpl *template.Template, baseDir string) (string, error) {
-	var buf bytes.Buffer
+func include(tpl *template.Template, name string, data interface{}) (string, error) {
+	// include the named template from the `define` directive in the current template
+	inc := tpl.Lookup(name)
+	if inc == nil {
+		return "", fmt.Errorf("template %s not found", name)
+	}
 
-	// Construct the file path for the included template
-	includePath := filepath.Join(baseDir, name)
-
-	// Read and parse the included template
-	includeContent, err := os.ReadFile(includePath)
+	var buffer bytes.Buffer
+	err := inc.Execute(&buffer, data)
 	if err != nil {
 		return "", err
 	}
 
-	// Parse the included template content
-	includeTpl, err := tpl.New(name).Parse(string(includeContent))
-	if err != nil {
-		return "", err
-	}
-
-	// Execute the included template
-	err = includeTpl.ExecuteTemplate(&buf, name, data)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
+	return buffer.String(), nil
 }
 
 // RenderTpl renders the given Helm .tpl template with the provided bindings and automatically includes additional templates from a directory.
-func RenderTpl(filePath string, bindings map[string]interface{}) ([]byte, error) {
-	// Read the input template file.
-	input, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, err
-	}
+func RenderTpl(input []byte, bindings map[string]interface{}) ([]byte, error) {
+
+	tpl := template.New("gotpl")
 
 	// Create a new template and add the sprig functions and the include function.
-	tpl := template.New("gotpl")
-	baseDir := filepath.Dir(filePath)
 	tpl.Funcs(sprig.TxtFuncMap()).Funcs(template.FuncMap{
 		"include": func(name string, data interface{}) (string, error) {
-			return include(name, data, tpl, baseDir)
+			return include(tpl, name, data)
 		},
 	})
 
-	// Parse the input template.
-	tpl, err = tpl.Parse(string(input))
+	tpl, err := tpl.Parse(string(input))
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a buffer to hold the rendered template.
 	var buffer bytes.Buffer
-
-	// Execute the template with the bindings and write to the buffer.
 	err = tpl.Execute(&buffer, bindings)
-	if err != nil {
-		return nil, err
-	}
-
-	return buffer.Bytes(), nil
+	return buffer.Bytes(), err
 }
