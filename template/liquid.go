@@ -22,7 +22,7 @@ var (
 		"sha256sum":     "sha26sum",
 	}
 
-	// internalFunctions to register. These will override Sprig functions.
+	// internalFunctions to register. These will override Sprig functions if same names are used.
 	internalFunctions = map[string]any{
 		"indent":  indent,
 		"nindent": nindent,
