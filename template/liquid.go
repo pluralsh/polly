@@ -5,7 +5,7 @@ import (
 
 	"github.com/Masterminds/sprig/v3"
 	"github.com/osteele/liquid"
-	"github.com/pluralsh/polly/algorithms"
+	"github.com/samber/lo"
 )
 
 var (
@@ -41,7 +41,7 @@ func init() {
 	}
 
 	for name, fnc := range fncs {
-		if algorithms.Index(excludedFunctions, func(s string) bool { return s == name }) < 0 {
+		if !lo.Contains(excludedFunctions, name) {
 			liquidEngine.RegisterFilter(name, fnc)
 		}
 	}
