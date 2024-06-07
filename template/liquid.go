@@ -5,35 +5,54 @@ import (
 
 	"github.com/Masterminds/sprig/v3"
 	"github.com/osteele/liquid"
+	"github.com/samber/lo"
 )
 
 var (
-	liquidEngine   = liquid.NewEngine()
-	sprigFunctions = map[string]string{
+	liquidEngine = liquid.NewEngine()
+
+	// excludedSprigFunctions contains names of Spring functions that will be excluded.
+	excludedSprigFunctions = []string{"hello", "now", "uuidv4"}
+
+	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
+	sprigFunctionNameAliases = map[string]string{
 		"toJson":        "to_json",
 		"fromJson":      "from_json",
-		"b64enc":        "b64enc",
-		"b64dec":        "b64dec",
 		"semverCompare": "semver_compare",
 		"sha256sum":     "sha26sum",
-		"quote":         "quote",
-		"squote":        "squote",
-		"replace":       "replace",
-		"coalesce":      "coalesce",
+	}
+
+	// internalFunctions to register. These will override Sprig functions if same names are used.
+	internalFunctions = map[string]any{
+		"indent":  indent,
+		"nindent": nindent,
+		"replace": strings.ReplaceAll,
+		"default": dfault,
+		"ternary": ternary,
 	}
 )
 
 func init() {
 	fncs := sprig.TxtFuncMap()
-	for key, name := range sprigFunctions {
+
+	excludedFunctions := excludedSprigFunctions
+	for k := range internalFunctions {
+		excludedFunctions = append(excludedFunctions, k)
+	}
+
+	for name, fnc := range fncs {
+		if !lo.Contains(excludedFunctions, name) {
+			liquidEngine.RegisterFilter(name, fnc)
+		}
+	}
+
+	for key, name := range sprigFunctionNameAliases {
 		liquidEngine.RegisterFilter(name, fncs[key])
 	}
-	liquidEngine.RegisterFilter("indent", indent)
-	liquidEngine.RegisterFilter("nindent", nindent)
-	liquidEngine.RegisterFilter("replace", strings.ReplaceAll)
 
-	liquidEngine.RegisterFilter("default", dfault)
-	liquidEngine.RegisterFilter("ternary", ternary)
+	for name, fnc := range internalFunctions {
+		liquidEngine.RegisterFilter(name, fnc)
+	}
 }
 
 func RenderLiquid(input []byte, bindings map[string]interface{}) ([]byte, error) {
