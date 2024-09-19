@@ -70,7 +70,7 @@ func registerFilter(name string, aliases []string, fn any) {
 	lastDot := strings.LastIndexByte(fnPath, '.')
 	fnPackage := ""
 	fnName := ""
-	if lastDot > 1 {
+	if lastDot >= 0 {
 		fnPackage = fnPath[:lastDot]
 		fnName = fnPath[lastDot+1:]
 	}
