@@ -13,10 +13,10 @@ import (
 type FilterFunction struct {
 	Name            string   `json:"name"`
 	Aliases         []string `json:"aliases,omitempty"`
+	Documentation   string   `json:"documentation,omitempty"`
 	FunctionPath    string   `json:"functionPath,omitempty"`
 	FunctionPackage string   `json:"functionPackage,omitempty"`
 	FunctionName    string   `json:"functionName,omitempty"`
-	Documentation   string   `json:"documentation,omitempty"`
 }
 
 var (
@@ -79,6 +79,7 @@ func registerFilter(name string, aliases []string, fn any) {
 	registeredFunctions[name] = FilterFunction{
 		Name:            name,
 		Aliases:         aliases,
+		Documentation:   functionDocs[name],
 		FunctionPath:    fnPath,
 		FunctionPackage: fnPackage,
 		FunctionName:    fnName,
