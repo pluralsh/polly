@@ -16,6 +16,7 @@ type FilterFunction struct {
 	FunctionPath    string   `json:"functionPath,omitempty"`
 	FunctionPackage string   `json:"functionPackage,omitempty"`
 	FunctionName    string   `json:"functionName,omitempty"`
+	Documentation   string   `json:"documentation,omitempty"`
 }
 
 var (
