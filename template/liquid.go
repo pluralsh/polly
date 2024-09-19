@@ -68,7 +68,7 @@ func registerFilter(name string, aliases []string, fn any) {
 	}
 
 	fnPath := runtime.FuncForPC(reflect.ValueOf(fn).Pointer()).Name()
-	lastDot := strings.LastIndexByte(fnPath, '.')
+	lastDot := strings.LastIndexByte(fnPath, '.') // FIXME
 	fnPackage := ""
 	fnName := ""
 	if lastDot >= 0 {
