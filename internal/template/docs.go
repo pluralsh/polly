@@ -8,7 +8,6 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
-	_ "github.com/pluralsh/polly/template"
 	tmpl "github.com/pluralsh/polly/template"
 	"github.com/samber/lo"
 )
