@@ -15,5 +15,5 @@ func TestLiquidFunctionDocs(t *testing.T) {
 
 	f, err := os.ReadFile("../../docs/liquid-filters.md")
 	assert.NoError(t, err)
-	assert.Equal(t, b.String(), string(f), "filter docs are not up-to-date")
+	assert.Equal(t, b.String(), string(f), "docs are outdated, use `make gen-docs` to update them")
 }

@@ -19,5 +19,5 @@ release-vsn: # tags and pushes a new release
 	git tag -a $$tag -m "new release"; \
 	git push origin $$tag
 
-gen-registered-filters-docs: # generates docs for registered liquid template functions
+gen-docs: # generates docs for registered liquid template functions
 	go run github.com/pluralsh/polly/internal/template
