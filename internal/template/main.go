@@ -13,6 +13,7 @@ import (
 )
 
 const (
+	path  = "docs/liquid_filters.md"
 	templ = `...
 
 {{ range . }}
@@ -31,7 +32,7 @@ func main() {
 		return strings.Compare(filters[i].Name, filters[j].Name) < 0
 	})
 
-	f, err := os.Create("docs.md")
+	f, err := os.Create(path)
 	if err != nil {
 		panic(err)
 	}

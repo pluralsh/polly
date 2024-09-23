@@ -44,7 +44,7 @@ Sums float numbers.
 Implementation: github.com/Masterminds/sprig/v3.init.func22
 
 ##  adler32sum
-
+Receives a string and computes its Adler-32 checksum.
 
 
 
@@ -58,21 +58,21 @@ Returns duration from current time in seconds resolution.
 Implementation: github.com/Masterminds/sprig/v3.dateAgo
 
 ##  all
-
+Takes a list of values ad returns true if all values are non-empty.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.all
 
 ##  any
-
+Takes a list of values ad returns true if any values are non-empty.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.any
 
 ##  append
-
+Appends a new item to existing list, creating a new list.
 
 
 
@@ -121,7 +121,7 @@ Implementation: github.com/Masterminds/sprig/v3.base64encode
 Implementation: path.Base
 
 ##  bcrypt
-
+Receives a string and generates its bcrypt hash.
 
 
 
@@ -135,7 +135,7 @@ Implementation: github.com/Masterminds/sprig/v3.bcrypt
 Implementation: github.com/Masterminds/sprig/v3.max
 
 ##  buildCustomCert
-
+Allows customizing the certificate. It takes Base64 encoded PEM format certificate and private key as arguments and returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.
 
 
 
@@ -366,7 +366,7 @@ Unconditionally returns an empty string and an error with the specified text. Th
 Implementation: github.com/Masterminds/sprig/v3.init.func26
 
 ##  first
-
+Returns head item on a list.
 
 
 
@@ -513,7 +513,7 @@ Implementation: github.com/Masterminds/sprig/v3.htpasswd
 Implementation: github.com/pluralsh/polly/template.indent
 
 ##  initial
-
+Compliments `last` by retuning all but the last element.
 
 
 
@@ -667,7 +667,7 @@ Implementation: github.com/Masterminds/sprig/v3.init.func19
 Implementation: github.com/Masterminds/sprig/v3.init.func25
 
 ##  mustAppend
-
+Appends a new item to existing list, creating a new list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -681,7 +681,7 @@ Implementation: github.com/Masterminds/sprig/v3.mustPush
 Implementation: github.com/Masterminds/sprig/v3.mustChunk
 
 ##  mustCompact
-Accepts a list and removes entries with empty values.
+Accepts a list and removes entries with empty values. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -702,7 +702,7 @@ Implementation: github.com/Masterminds/sprig/v3.mustDateModify
 Implementation: github.com/Masterminds/sprig/v3.mustDeepCopy
 
 ##  mustFirst
-
+Returns head item on a list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -716,14 +716,14 @@ Implementation: github.com/Masterminds/sprig/v3.mustFirst
 Implementation: github.com/Masterminds/sprig/v3.mustFromJson
 
 ##  mustHas
-Checks if a list has a particular element.
+Checks if a list has a particular element. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.mustHas
 
 ##  mustInitial
-
+Compliments `last` by retuning all but the last element. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -807,14 +807,14 @@ Implementation: github.com/Masterminds/sprig/v3.mustRegexReplaceAllLiteral
 Implementation: github.com/Masterminds/sprig/v3.mustRegexSplit
 
 ##  mustRest
-
+Gets tail of the list (everything but the first item). Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.mustRest
 
 ##  mustReverse
-Produces a new list with the reversed elements of the given list.
+Produces a new list with the reversed elements of the given list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -828,7 +828,7 @@ Implementation: github.com/Masterminds/sprig/v3.mustReverse
 Implementation: github.com/Masterminds/sprig/v3.mustSlice
 
 ##  mustToDate
-Converts a string to a date. The first argument is the date layout and the second is the date string. If the string can’t be converted it returns the zero value.
+Converts a string to a date. The first argument is the date layout and the second is the date string. If the string can’t be converted it returns the zero value. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -856,14 +856,14 @@ Implementation: github.com/Masterminds/sprig/v3.mustToPrettyJson
 Implementation: github.com/Masterminds/sprig/v3.mustToRawJson
 
 ##  mustUniq
-Generates a list with all of the duplicates removed.
+Generates a list with all of the duplicates removed. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.mustUniq
 
 ##  mustWithout
-Filters items out of a list.
+Filters items out of a list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
@@ -996,7 +996,7 @@ Implementation: github.com/Masterminds/sprig/v3.randAlphaNumeric
 Implementation: github.com/Masterminds/sprig/v3.randAscii
 
 ##  randBytes
-
+Accepts a count `N` and generates cryptographically secure random sequence of `N` bytes. The sequence is returned as a Base64 encoded string.
 
 
 
@@ -1080,7 +1080,7 @@ Implementation: github.com/Masterminds/sprig/v3.init.func2
 Implementation: strings.ReplaceAll
 
 ##  rest
-
+Gets tail of the list (everything but the first item).
 
 
 
@@ -1374,7 +1374,7 @@ Returns the seconds since the Unix epoch.
 Implementation: github.com/Masterminds/sprig/v3.unixEpoch
 
 ##  unset
-
+Given a map and a key it deletes the key from the map. It returns dictionary. Note that if the key is not found this operation will simply return. No error will be generated.
 
 
 
