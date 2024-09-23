@@ -352,7 +352,7 @@ Substitutes environment variable in a string.
 Implementation: os.ExpandEnv
 
 ##  ext
-
+Returns file extension. `ext "foo.bar"` will return `"bar"`.
 
 
 
@@ -541,7 +541,7 @@ Converts to a `int64`.
 Implementation: github.com/Masterminds/sprig/v3.toInt64
 
 ##  isAbs
-
+Checks whether a path is absolute.
 
 
 
@@ -898,35 +898,35 @@ Implementation: github.com/Masterminds/goutils.DeleteWhiteSpace
 Implementation: github.com/Masterminds/sprig/v3.omit
 
 ##  osBase
-
+Returns the last element of a file path. `osBase "/foo/bar/baz"` and `osBase "C:\\foo\\bar\\baz"` will return `"baz"` on Linux and Windows, respectively.
 
 
 
 Implementation: path/filepath.Base
 
 ##  osClean
-
+Cleans up a path. `osClean "/foo/bar/../baz"` and `osClean "C:\\foo\\bar\\..\\baz"` will resolve the `..` and return `foo/baz` on Linux and `C:\foo\baz` on Windows.
 
 
 
 Implementation: path/filepath.Clean
 
 ##  osDir
-
+Returns the directory, stripping the last part of the path. So `osDir "/foo/bar/baz"` returns `/foo/bar` on Linux, and `osDir "C:\\foo\\bar\\baz"` returns `C:\\foo\\bar` on Windows.
 
 
 
 Implementation: path/filepath.Dir
 
 ##  osExt
-
+Return the file extension. `osExt "/foo.bar"` and `osExt "C:\\foo.bar"` will return `.bar` on Linux and Windows, respectively.
 
 
 
 Implementation: path/filepath.Ext
 
 ##  osIsAbs
-
+Checks whether a file path is absolute.
 
 
 
