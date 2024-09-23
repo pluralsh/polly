@@ -145,7 +145,7 @@ _Implementation_: github.com/Masterminds/sprig/v3.buildCustomCertificate
 
 
 
-_Implementation_: github.com/huandu/xstrings.ToCamelCase
+_Implementation_: github.com/huandu/xstrings.ToPascalCase
 
 ##  cat
 
@@ -1140,6 +1140,13 @@ _Implementation_: github.com/Masterminds/sprig/v3.sha1sum
 _Aliases_: sha26sum
 
 _Implementation_: github.com/Masterminds/sprig/v3.sha256sum
+
+##  sha512sum
+
+
+
+
+_Implementation_: github.com/Masterminds/sprig/v3.sha512sum
 
 ##  shuffle
 
