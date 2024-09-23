@@ -160,7 +160,7 @@ var functionDocs = map[string]string{
 	"round":                      "Returns a float value with the remainder rounded to the given number to digits after the decimal point. `round 123.55555 3` will return `123.556`.",
 	"semver":                     "",
 	"semverCompare":              "",
-	"seq":                        "Works like Bash `seq` command. Specify 1 parameter (`end`) to generate all counting integers between 1 and `end` inclusive. Specify 2 parameters (`start` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by 1. Specify 3 parameters (`start`, `step` and `end) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by `step`.",
+	"seq":                        "Works like Bash `seq` command. Specify 1 parameter (`end`) to generate all counting integers between 1 and `end` inclusive. Specify 2 parameters (`start` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by 1. Specify 3 parameters (`start`, `step` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by `step`.",
 	"set":                        "",
 	"sha1sum":                    "",
 	"sha256sum":                  "",
