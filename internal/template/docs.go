@@ -33,12 +33,12 @@ func main() {
 		panic(err)
 	}
 
-	if err = generateFilterDocs(f, getRegisteredFilters()); err != nil {
+	if err = generateFilterDocs(f, registeredFilters()); err != nil {
 		panic(err)
 	}
 }
 
-func getRegisteredFilters() []tmpl.FilterFunction {
+func registeredFilters() []tmpl.FilterFunction {
 	filters := lo.Values(tmpl.RegisteredFilters())
 	sort.Slice(filters, func(i, j int) bool {
 		return strings.Compare(filters[i].Name, filters[j].Name) < 0
