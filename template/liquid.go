@@ -11,12 +11,10 @@ import (
 )
 
 type FilterFunction struct {
-	Name            string   `json:"name"`
-	Aliases         []string `json:"aliases,omitempty"`
-	Documentation   string   `json:"documentation,omitempty"`
-	FunctionPath    string   `json:"functionPath,omitempty"`
-	FunctionPackage string   `json:"functionPackage,omitempty"`
-	FunctionName    string   `json:"functionName,omitempty"`
+	Name           string   `json:"name"`
+	Aliases        []string `json:"aliases,omitempty"`
+	Description    string   `json:"description,omitempty"`
+	Implementation string   `json:"implementation,omitempty"`
 }
 
 var (
@@ -67,22 +65,11 @@ func registerFilter(name string, aliases []string, fn any) {
 		liquidEngine.RegisterFilter(alias, fn)
 	}
 
-	fnPath := runtime.FuncForPC(reflect.ValueOf(fn).Pointer()).Name()
-	lastDot := strings.LastIndexByte(fnPath, '.') // FIXME
-	fnPackage := ""
-	fnName := ""
-	if lastDot >= 0 {
-		fnPackage = fnPath[:lastDot]
-		fnName = fnPath[lastDot+1:]
-	}
-
 	registeredFunctions[name] = FilterFunction{
-		Name:            name,
-		Aliases:         aliases,
-		Documentation:   functionDocs[name],
-		FunctionPath:    fnPath,
-		FunctionPackage: fnPackage,
-		FunctionName:    fnName,
+		Name:           name,
+		Aliases:        aliases,
+		Description:    functionDocs[name],
+		Implementation: runtime.FuncForPC(reflect.ValueOf(fn).Pointer()).Name(),
 	}
 }
 
