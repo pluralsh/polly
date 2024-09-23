@@ -15,15 +15,14 @@ import (
 
 const (
 	docsPath     = "docs/liquid-filters.md"
-	docsTemplate = `...
-
+	docsTemplate = `# Supported Liquid Filters
 {{ range . }}
 ##  {{ .Name }}
 {{ .Description }}
 
-{{ if .Aliases }}Aliases: {{ .Aliases | join ", " }}{{ end }}
+{{ if .Aliases }}_Aliases_: {{ .Aliases | join ", " }}{{ end }}
 
-Implementation: {{ .Implementation }}
+_Implementation_: {{ .Implementation }}
 {{ end }}`
 )
 

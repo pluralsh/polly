@@ -1,1452 +1,1451 @@
-...
-
+# Supported Liquid Filters
 
 ##  abbrev
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.abbrev
+_Implementation_: github.com/Masterminds/sprig/v3.abbrev
 
 ##  abbrevboth
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.abbrevboth
+_Implementation_: github.com/Masterminds/sprig/v3.abbrevboth
 
 ##  add
 Sums numbers. Accepts two or more inputs. `add 1 2 3` will return `6`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func15
+_Implementation_: github.com/Masterminds/sprig/v3.init.func15
 
 ##  add1
 Increments by 1. `add1 3` will return `4`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func14
+_Implementation_: github.com/Masterminds/sprig/v3.init.func14
 
 ##  add1f
 Increments float number by 1.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func21
+_Implementation_: github.com/Masterminds/sprig/v3.init.func21
 
 ##  addf
 Sums float numbers.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func22
+_Implementation_: github.com/Masterminds/sprig/v3.init.func22
 
 ##  adler32sum
 Receives a string and computes its Adler-32 checksum.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.adler32sum
+_Implementation_: github.com/Masterminds/sprig/v3.adler32sum
 
 ##  ago
 Returns duration from current time in seconds resolution.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dateAgo
+_Implementation_: github.com/Masterminds/sprig/v3.dateAgo
 
 ##  all
 Takes a list of values ad returns true if all values are non-empty.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.all
+_Implementation_: github.com/Masterminds/sprig/v3.all
 
 ##  any
 Takes a list of values ad returns true if any values are non-empty.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.any
+_Implementation_: github.com/Masterminds/sprig/v3.any
 
 ##  append
 Appends a new item to existing list, creating a new list.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.push
+_Implementation_: github.com/Masterminds/sprig/v3.push
 
 ##  atoi
 Converts a string to an integer.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func12
+_Implementation_: github.com/Masterminds/sprig/v3.init.func12
 
 ##  b32dec
 Decodes string from Base32 format.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.base32decode
+_Implementation_: github.com/Masterminds/sprig/v3.base32decode
 
 ##  b32enc
 Encodes string with Base32 format.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.base32encode
+_Implementation_: github.com/Masterminds/sprig/v3.base32encode
 
 ##  b64dec
 Decodes string from Base64 format.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.base64decode
+_Implementation_: github.com/Masterminds/sprig/v3.base64decode
 
 ##  b64enc
 Encodes string with Base64 format.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.base64encode
+_Implementation_: github.com/Masterminds/sprig/v3.base64encode
 
 ##  base
 
 
 
 
-Implementation: path.Base
+_Implementation_: path.Base
 
 ##  bcrypt
 Receives a string and generates its bcrypt hash.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.bcrypt
+_Implementation_: github.com/Masterminds/sprig/v3.bcrypt
 
 ##  biggest
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.max
+_Implementation_: github.com/Masterminds/sprig/v3.max
 
 ##  buildCustomCert
 Allows customizing the certificate. It takes Base64 encoded PEM format certificate and private key as arguments and returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.buildCustomCertificate
+_Implementation_: github.com/Masterminds/sprig/v3.buildCustomCertificate
 
 ##  camelcase
 
 
 
 
-Implementation: github.com/huandu/xstrings.ToCamelCase
+_Implementation_: github.com/huandu/xstrings.ToCamelCase
 
 ##  cat
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.cat
+_Implementation_: github.com/Masterminds/sprig/v3.cat
 
 ##  ceil
 Returns greatest float value greater than or equal to input value. `ceil 123.001` will return `124.0`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.ceil
+_Implementation_: github.com/Masterminds/sprig/v3.ceil
 
 ##  chunk
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.chunk
+_Implementation_: github.com/Masterminds/sprig/v3.chunk
 
 ##  clean
 
 
 
 
-Implementation: path.Clean
+_Implementation_: path.Clean
 
 ##  coalesce
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.coalesce
+_Implementation_: github.com/Masterminds/sprig/v3.coalesce
 
 ##  compact
 Accepts a list and removes entries with empty values.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.compact
+_Implementation_: github.com/Masterminds/sprig/v3.compact
 
 ##  concat
 Concatenates arbitrary number of lists into one.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.concat
+_Implementation_: github.com/Masterminds/sprig/v3.concat
 
 ##  contains
 Tests if one string is contained inside of another. `contains "cat" "catch"` will return `true`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func9
+_Implementation_: github.com/Masterminds/sprig/v3.init.func9
 
 ##  date
 Formats date.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.date
+_Implementation_: github.com/Masterminds/sprig/v3.date
 
 ##  dateInZone
 Same as `date` but with a timezone.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dateInZone
+_Implementation_: github.com/Masterminds/sprig/v3.dateInZone
 
 ##  dateModify
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dateModify
+_Implementation_: github.com/Masterminds/sprig/v3.dateModify
 
 ##  date_in_zone
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dateInZone
+_Implementation_: github.com/Masterminds/sprig/v3.dateInZone
 
 ##  date_modify
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dateModify
+_Implementation_: github.com/Masterminds/sprig/v3.dateModify
 
 ##  decryptAES
 Receives a Base64 string encoded by the AES-256 CBC algorithm and returns the decoded text.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.decryptAES
+_Implementation_: github.com/Masterminds/sprig/v3.decryptAES
 
 ##  deepCopy
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.deepCopy
+_Implementation_: github.com/Masterminds/sprig/v3.deepCopy
 
 ##  deepEqual
 
 
 
 
-Implementation: reflect.DeepEqual
+_Implementation_: reflect.DeepEqual
 
 ##  default
 
 
 
 
-Implementation: github.com/pluralsh/polly/template.dfault
+_Implementation_: github.com/pluralsh/polly/template.dfault
 
 ##  derivePassword
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.derivePassword
+_Implementation_: github.com/Masterminds/sprig/v3.derivePassword
 
 ##  dict
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dict
+_Implementation_: github.com/Masterminds/sprig/v3.dict
 
 ##  dig
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.dig
+_Implementation_: github.com/Masterminds/sprig/v3.dig
 
 ##  dir
 
 
 
 
-Implementation: path.Dir
+_Implementation_: path.Dir
 
 ##  div
 Performs integer division.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func17
+_Implementation_: github.com/Masterminds/sprig/v3.init.func17
 
 ##  divf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func24
+_Implementation_: github.com/Masterminds/sprig/v3.init.func24
 
 ##  duration
 Formats a given amount of seconds as a `time.Duration`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.duration
+_Implementation_: github.com/Masterminds/sprig/v3.duration
 
 ##  durationRound
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.durationRound
+_Implementation_: github.com/Masterminds/sprig/v3.durationRound
 
 ##  empty
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.empty
+_Implementation_: github.com/Masterminds/sprig/v3.empty
 
 ##  encryptAES
 Encrypts text with AES-256 CBC and returns a Base64 encoded string.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.encryptAES
+_Implementation_: github.com/Masterminds/sprig/v3.encryptAES
 
 ##  env
 Reads environment variable.
 
 
 
-Implementation: os.Getenv
+_Implementation_: os.Getenv
 
 ##  expandenv
 Substitutes environment variable in a string.
 
 
 
-Implementation: os.ExpandEnv
+_Implementation_: os.ExpandEnv
 
 ##  ext
 Returns file extension. `ext "foo.bar"` will return `"bar"`.
 
 
 
-Implementation: path.Ext
+_Implementation_: path.Ext
 
 ##  fail
 Unconditionally returns an empty string and an error with the specified text. This is useful in scenarios where other conditionals have determined that template rendering should fail.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func26
+_Implementation_: github.com/Masterminds/sprig/v3.init.func26
 
 ##  first
 Returns head item on a list.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.first
+_Implementation_: github.com/Masterminds/sprig/v3.first
 
 ##  float64
 Converts to a `float64`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toFloat64
+_Implementation_: github.com/Masterminds/sprig/v3.toFloat64
 
 ##  floor
 Returns the greatest float value greater than or equal to input value. `floor 123.9999` will return `123.0`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.floor
+_Implementation_: github.com/Masterminds/sprig/v3.floor
 
 ##  fromJson
 
 
-Aliases: from_json
+_Aliases_: from_json
 
-Implementation: github.com/Masterminds/sprig/v3.fromJson
+_Implementation_: github.com/Masterminds/sprig/v3.fromJson
 
 ##  genCA
 Generates a new, self-signed x509 SSL Certificate Authority using 2048-bit RSA private key. It takes subject common name (CN) and cert validity duration in days as parameters. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generateCertificateAuthority
+_Implementation_: github.com/Masterminds/sprig/v3.generateCertificateAuthority
 
 ##  genCAWithKey
 Generates a new, self-signed x509 SSL Certificate Authority using given private key. It takes subject common name (CN), cert validity duration in days and private key (PEM-encoded; DSA keys are not supported) as parameters. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generateCertificateAuthorityWithPEMKey
+_Implementation_: github.com/Masterminds/sprig/v3.generateCertificateAuthorityWithPEMKey
 
 ##  genPrivateKey
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generatePrivateKey
+_Implementation_: github.com/Masterminds/sprig/v3.generatePrivateKey
 
 ##  genSelfSignedCert
 Generates an SSL self-signed certificate.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generateSelfSignedCertificate
+_Implementation_: github.com/Masterminds/sprig/v3.generateSelfSignedCertificate
 
 ##  genSelfSignedCertWithKey
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generateSelfSignedCertificateWithPEMKey
+_Implementation_: github.com/Masterminds/sprig/v3.generateSelfSignedCertificateWithPEMKey
 
 ##  genSignedCert
 Generates an SSL certificate and key based on a given CA.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generateSignedCertificate
+_Implementation_: github.com/Masterminds/sprig/v3.generateSignedCertificate
 
 ##  genSignedCertWithKey
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.generateSignedCertificateWithPEMKey
+_Implementation_: github.com/Masterminds/sprig/v3.generateSignedCertificateWithPEMKey
 
 ##  get
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.get
+_Implementation_: github.com/Masterminds/sprig/v3.get
 
 ##  getHostByName
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.getHostByName
+_Implementation_: github.com/Masterminds/sprig/v3.getHostByName
 
 ##  has
 Checks if a list has a particular element.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.has
+_Implementation_: github.com/Masterminds/sprig/v3.has
 
 ##  hasKey
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.hasKey
+_Implementation_: github.com/Masterminds/sprig/v3.hasKey
 
 ##  hasPrefix
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func10
+_Implementation_: github.com/Masterminds/sprig/v3.init.func10
 
 ##  hasSuffix
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func11
+_Implementation_: github.com/Masterminds/sprig/v3.init.func11
 
 ##  htmlDate
 Formats a date for inserting into HTML date picker input field.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.htmlDate
+_Implementation_: github.com/Masterminds/sprig/v3.htmlDate
 
 ##  htmlDateInZone
 Same as `htmlDate` but with a timezone.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.htmlDateInZone
+_Implementation_: github.com/Masterminds/sprig/v3.htmlDateInZone
 
 ##  htpasswd
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.htpasswd
+_Implementation_: github.com/Masterminds/sprig/v3.htpasswd
 
 ##  indent
 
 
 
 
-Implementation: github.com/pluralsh/polly/template.indent
+_Implementation_: github.com/pluralsh/polly/template.indent
 
 ##  initial
 Compliments `last` by retuning all but the last element.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.initial
+_Implementation_: github.com/Masterminds/sprig/v3.initial
 
 ##  initials
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.initials
+_Implementation_: github.com/Masterminds/sprig/v3.initials
 
 ##  int
 Converts to a `int`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toInt
+_Implementation_: github.com/Masterminds/sprig/v3.toInt
 
 ##  int64
 Converts to a `int64`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toInt64
+_Implementation_: github.com/Masterminds/sprig/v3.toInt64
 
 ##  isAbs
 Checks whether a path is absolute.
 
 
 
-Implementation: path.IsAbs
+_Implementation_: path.IsAbs
 
 ##  join
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.join
+_Implementation_: github.com/Masterminds/sprig/v3.join
 
 ##  kebabcase
 
 
 
 
-Implementation: github.com/huandu/xstrings.ToKebabCase
+_Implementation_: github.com/huandu/xstrings.ToKebabCase
 
 ##  keys
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.keys
+_Implementation_: github.com/Masterminds/sprig/v3.keys
 
 ##  kindIs
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.kindIs
+_Implementation_: github.com/Masterminds/sprig/v3.kindIs
 
 ##  kindOf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.kindOf
+_Implementation_: github.com/Masterminds/sprig/v3.kindOf
 
 ##  last
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.last
+_Implementation_: github.com/Masterminds/sprig/v3.last
 
 ##  list
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.list
+_Implementation_: github.com/Masterminds/sprig/v3.list
 
 ##  lower
 Converts the entire string to lowercase. `upper "HELLO"` will return `hello`.
 
 
 
-Implementation: strings.ToLower
+_Implementation_: strings.ToLower
 
 ##  max
 Returns the largest of a series of integers. `max 1 2 3` will return `3`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.max
+_Implementation_: github.com/Masterminds/sprig/v3.max
 
 ##  maxf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.maxf
+_Implementation_: github.com/Masterminds/sprig/v3.maxf
 
 ##  merge
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.merge
+_Implementation_: github.com/Masterminds/sprig/v3.merge
 
 ##  mergeOverwrite
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mergeOverwrite
+_Implementation_: github.com/Masterminds/sprig/v3.mergeOverwrite
 
 ##  min
 Returns the smallest of a series of integers. `min 1 2 3` will return `1`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.min
+_Implementation_: github.com/Masterminds/sprig/v3.min
 
 ##  minf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.minf
+_Implementation_: github.com/Masterminds/sprig/v3.minf
 
 ##  mod
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func18
+_Implementation_: github.com/Masterminds/sprig/v3.init.func18
 
 ##  mul
 Multiples numbers. Accepts two or more inputs. `mul 1 2 3` will return `6`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func19
+_Implementation_: github.com/Masterminds/sprig/v3.init.func19
 
 ##  mulf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func25
+_Implementation_: github.com/Masterminds/sprig/v3.init.func25
 
 ##  mustAppend
 Appends a new item to existing list, creating a new list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustPush
+_Implementation_: github.com/Masterminds/sprig/v3.mustPush
 
 ##  mustChunk
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustChunk
+_Implementation_: github.com/Masterminds/sprig/v3.mustChunk
 
 ##  mustCompact
 Accepts a list and removes entries with empty values. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustCompact
+_Implementation_: github.com/Masterminds/sprig/v3.mustCompact
 
 ##  mustDateModify
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustDateModify
+_Implementation_: github.com/Masterminds/sprig/v3.mustDateModify
 
 ##  mustDeepCopy
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustDeepCopy
+_Implementation_: github.com/Masterminds/sprig/v3.mustDeepCopy
 
 ##  mustFirst
 Returns head item on a list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustFirst
+_Implementation_: github.com/Masterminds/sprig/v3.mustFirst
 
 ##  mustFromJson
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustFromJson
+_Implementation_: github.com/Masterminds/sprig/v3.mustFromJson
 
 ##  mustHas
 Checks if a list has a particular element. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustHas
+_Implementation_: github.com/Masterminds/sprig/v3.mustHas
 
 ##  mustInitial
 Compliments `last` by retuning all but the last element. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustInitial
+_Implementation_: github.com/Masterminds/sprig/v3.mustInitial
 
 ##  mustLast
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustLast
+_Implementation_: github.com/Masterminds/sprig/v3.mustLast
 
 ##  mustMerge
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustMerge
+_Implementation_: github.com/Masterminds/sprig/v3.mustMerge
 
 ##  mustMergeOverwrite
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustMergeOverwrite
+_Implementation_: github.com/Masterminds/sprig/v3.mustMergeOverwrite
 
 ##  mustPrepend
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustPrepend
+_Implementation_: github.com/Masterminds/sprig/v3.mustPrepend
 
 ##  mustPush
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustPush
+_Implementation_: github.com/Masterminds/sprig/v3.mustPush
 
 ##  mustRegexFind
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRegexFind
+_Implementation_: github.com/Masterminds/sprig/v3.mustRegexFind
 
 ##  mustRegexFindAll
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRegexFindAll
+_Implementation_: github.com/Masterminds/sprig/v3.mustRegexFindAll
 
 ##  mustRegexMatch
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRegexMatch
+_Implementation_: github.com/Masterminds/sprig/v3.mustRegexMatch
 
 ##  mustRegexReplaceAll
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRegexReplaceAll
+_Implementation_: github.com/Masterminds/sprig/v3.mustRegexReplaceAll
 
 ##  mustRegexReplaceAllLiteral
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRegexReplaceAllLiteral
+_Implementation_: github.com/Masterminds/sprig/v3.mustRegexReplaceAllLiteral
 
 ##  mustRegexSplit
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRegexSplit
+_Implementation_: github.com/Masterminds/sprig/v3.mustRegexSplit
 
 ##  mustRest
 Gets tail of the list (everything but the first item). Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustRest
+_Implementation_: github.com/Masterminds/sprig/v3.mustRest
 
 ##  mustReverse
 Produces a new list with the reversed elements of the given list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustReverse
+_Implementation_: github.com/Masterminds/sprig/v3.mustReverse
 
 ##  mustSlice
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustSlice
+_Implementation_: github.com/Masterminds/sprig/v3.mustSlice
 
 ##  mustToDate
 Converts a string to a date. The first argument is the date layout and the second is the date string. If the string can’t be converted it returns the zero value. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustToDate
+_Implementation_: github.com/Masterminds/sprig/v3.mustToDate
 
 ##  mustToJson
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustToJson
+_Implementation_: github.com/Masterminds/sprig/v3.mustToJson
 
 ##  mustToPrettyJson
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustToPrettyJson
+_Implementation_: github.com/Masterminds/sprig/v3.mustToPrettyJson
 
 ##  mustToRawJson
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustToRawJson
+_Implementation_: github.com/Masterminds/sprig/v3.mustToRawJson
 
 ##  mustUniq
 Generates a list with all of the duplicates removed. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustUniq
+_Implementation_: github.com/Masterminds/sprig/v3.mustUniq
 
 ##  mustWithout
 Filters items out of a list. Like other `must` functions instead of panicking when there is a problem it will return an error to the template engine.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustWithout
+_Implementation_: github.com/Masterminds/sprig/v3.mustWithout
 
 ##  must_date_modify
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.mustDateModify
+_Implementation_: github.com/Masterminds/sprig/v3.mustDateModify
 
 ##  nindent
 
 
 
 
-Implementation: github.com/pluralsh/polly/template.nindent
+_Implementation_: github.com/pluralsh/polly/template.nindent
 
 ##  nospace
 Removes all whitespace from a string. `nospace "hello w o r l d"` will return `helloworld`.
 
 
 
-Implementation: github.com/Masterminds/goutils.DeleteWhiteSpace
+_Implementation_: github.com/Masterminds/goutils.DeleteWhiteSpace
 
 ##  omit
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.omit
+_Implementation_: github.com/Masterminds/sprig/v3.omit
 
 ##  osBase
 Returns the last element of a file path. `osBase "/foo/bar/baz"` and `osBase "C:\\foo\\bar\\baz"` will return `"baz"` on Linux and Windows, respectively.
 
 
 
-Implementation: path/filepath.Base
+_Implementation_: path/filepath.Base
 
 ##  osClean
 Cleans up a path. `osClean "/foo/bar/../baz"` and `osClean "C:\\foo\\bar\\..\\baz"` will resolve the `..` and return `foo/baz` on Linux and `C:\foo\baz` on Windows.
 
 
 
-Implementation: path/filepath.Clean
+_Implementation_: path/filepath.Clean
 
 ##  osDir
 Returns the directory, stripping the last part of the path. So `osDir "/foo/bar/baz"` returns `/foo/bar` on Linux, and `osDir "C:\\foo\\bar\\baz"` returns `C:\\foo\\bar` on Windows.
 
 
 
-Implementation: path/filepath.Dir
+_Implementation_: path/filepath.Dir
 
 ##  osExt
 Return the file extension. `osExt "/foo.bar"` and `osExt "C:\\foo.bar"` will return `.bar` on Linux and Windows, respectively.
 
 
 
-Implementation: path/filepath.Ext
+_Implementation_: path/filepath.Ext
 
 ##  osIsAbs
 Checks whether a file path is absolute.
 
 
 
-Implementation: path/filepath.IsAbs
+_Implementation_: path/filepath.IsAbs
 
 ##  pick
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.pick
+_Implementation_: github.com/Masterminds/sprig/v3.pick
 
 ##  pluck
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.pluck
+_Implementation_: github.com/Masterminds/sprig/v3.pluck
 
 ##  plural
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.plural
+_Implementation_: github.com/Masterminds/sprig/v3.plural
 
 ##  prepend
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.prepend
+_Implementation_: github.com/Masterminds/sprig/v3.prepend
 
 ##  push
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.push
+_Implementation_: github.com/Masterminds/sprig/v3.push
 
 ##  quote
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.quote
+_Implementation_: github.com/Masterminds/sprig/v3.quote
 
 ##  randAlpha
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.randAlpha
+_Implementation_: github.com/Masterminds/sprig/v3.randAlpha
 
 ##  randAlphaNum
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.randAlphaNumeric
+_Implementation_: github.com/Masterminds/sprig/v3.randAlphaNumeric
 
 ##  randAscii
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.randAscii
+_Implementation_: github.com/Masterminds/sprig/v3.randAscii
 
 ##  randBytes
 Accepts a count `N` and generates cryptographically secure random sequence of `N` bytes. The sequence is returned as a Base64 encoded string.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.randBytes
+_Implementation_: github.com/Masterminds/sprig/v3.randBytes
 
 ##  randInt
 Returns a random integer value from min (inclusive) to max (exclusive). `randInt 12 30` will produce a random number in the range from 12 to 30.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func20
+_Implementation_: github.com/Masterminds/sprig/v3.init.func20
 
 ##  randNumeric
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.randNumeric
+_Implementation_: github.com/Masterminds/sprig/v3.randNumeric
 
 ##  regexFind
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexFind
+_Implementation_: github.com/Masterminds/sprig/v3.regexFind
 
 ##  regexFindAll
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexFindAll
+_Implementation_: github.com/Masterminds/sprig/v3.regexFindAll
 
 ##  regexMatch
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexMatch
+_Implementation_: github.com/Masterminds/sprig/v3.regexMatch
 
 ##  regexQuoteMeta
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexQuoteMeta
+_Implementation_: github.com/Masterminds/sprig/v3.regexQuoteMeta
 
 ##  regexReplaceAll
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexReplaceAll
+_Implementation_: github.com/Masterminds/sprig/v3.regexReplaceAll
 
 ##  regexReplaceAllLiteral
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexReplaceAllLiteral
+_Implementation_: github.com/Masterminds/sprig/v3.regexReplaceAllLiteral
 
 ##  regexSplit
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.regexSplit
+_Implementation_: github.com/Masterminds/sprig/v3.regexSplit
 
 ##  repeat
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func2
+_Implementation_: github.com/Masterminds/sprig/v3.init.func2
 
 ##  replace
 
 
 
 
-Implementation: strings.ReplaceAll
+_Implementation_: strings.ReplaceAll
 
 ##  rest
 Gets tail of the list (everything but the first item).
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.rest
+_Implementation_: github.com/Masterminds/sprig/v3.rest
 
 ##  reverse
 Produces a new list with the reversed elements of the given list.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.reverse
+_Implementation_: github.com/Masterminds/sprig/v3.reverse
 
 ##  round
 Returns a float value with the remainder rounded to the given number to digits after the decimal point. `round 123.55555 3` will return `123.556`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.round
+_Implementation_: github.com/Masterminds/sprig/v3.round
 
 ##  semver
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.semver
+_Implementation_: github.com/Masterminds/sprig/v3.semver
 
 ##  semverCompare
 
 
-Aliases: semver_compare
+_Aliases_: semver_compare
 
-Implementation: github.com/Masterminds/sprig/v3.semverCompare
+_Implementation_: github.com/Masterminds/sprig/v3.semverCompare
 
 ##  seq
 Works like Bash `seq` command. Specify 1 parameter (`end`) to generate all counting integers between 1 and `end` inclusive. Specify 2 parameters (`start` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by 1. Specify 3 parameters (`start`, `step` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by `step`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.seq
+_Implementation_: github.com/Masterminds/sprig/v3.seq
 
 ##  set
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.set
+_Implementation_: github.com/Masterminds/sprig/v3.set
 
 ##  sha1sum
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.sha1sum
+_Implementation_: github.com/Masterminds/sprig/v3.sha1sum
 
 ##  sha256sum
 
 
-Aliases: sha26sum
+_Aliases_: sha26sum
 
-Implementation: github.com/Masterminds/sprig/v3.sha256sum
+_Implementation_: github.com/Masterminds/sprig/v3.sha256sum
 
 ##  shuffle
 
 
 
 
-Implementation: github.com/huandu/xstrings.Shuffle
+_Implementation_: github.com/huandu/xstrings.Shuffle
 
 ##  slice
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.slice
+_Implementation_: github.com/Masterminds/sprig/v3.slice
 
 ##  snakecase
 
 
 
 
-Implementation: github.com/huandu/xstrings.ToSnakeCase
+_Implementation_: github.com/huandu/xstrings.ToSnakeCase
 
 ##  sortAlpha
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.sortAlpha
+_Implementation_: github.com/Masterminds/sprig/v3.sortAlpha
 
 ##  split
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.split
+_Implementation_: github.com/Masterminds/sprig/v3.split
 
 ##  splitList
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func13
+_Implementation_: github.com/Masterminds/sprig/v3.init.func13
 
 ##  splitn
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.splitn
+_Implementation_: github.com/Masterminds/sprig/v3.splitn
 
 ##  squote
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.squote
+_Implementation_: github.com/Masterminds/sprig/v3.squote
 
 ##  sub
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func16
+_Implementation_: github.com/Masterminds/sprig/v3.init.func16
 
 ##  subf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func23
+_Implementation_: github.com/Masterminds/sprig/v3.init.func23
 
 ##  substr
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.substring
+_Implementation_: github.com/Masterminds/sprig/v3.substring
 
 ##  swapcase
 
 
 
 
-Implementation: github.com/Masterminds/goutils.SwapCase
+_Implementation_: github.com/Masterminds/goutils.SwapCase
 
 ##  ternary
 Takes two values and a test value. If the test value is true, the first value will be returned. If the test value is false, the second value will be returned. This is similar to the C ternary operator. `ternary "foo" "bar" true` or `true | "foo" "bar"` will return `"foo"`.
 
 
 
-Implementation: github.com/pluralsh/polly/template.ternary
+_Implementation_: github.com/pluralsh/polly/template.ternary
 
 ##  title
 Converts a string to title case. `title "hello world"` will return `"Hello World"`.
 
 
 
-Implementation: strings.Title
+_Implementation_: strings.Title
 
 ##  toDate
 Converts a string to a date. The first argument is the date layout and the second is the date string. If the string can’t be converted it returns the zero value.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toDate
+_Implementation_: github.com/Masterminds/sprig/v3.toDate
 
 ##  toDecimal
 Converts a Unix octal to a `int64`.`"0777" | toDecimal` will convert `0777` to `511` and return the value as `int64`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toDecimal
+_Implementation_: github.com/Masterminds/sprig/v3.toDecimal
 
 ##  toJson
 
 
-Aliases: to_json
+_Aliases_: to_json
 
-Implementation: github.com/Masterminds/sprig/v3.toJson
+_Implementation_: github.com/Masterminds/sprig/v3.toJson
 
 ##  toPrettyJson
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toPrettyJson
+_Implementation_: github.com/Masterminds/sprig/v3.toPrettyJson
 
 ##  toRawJson
 Encodes an item into JSON string with HTML characters unescaped. `toRawJson .Item` will return unescaped JSON string representation of `.Item`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.toRawJson
+_Implementation_: github.com/Masterminds/sprig/v3.toRawJson
 
 ##  toString
 Converts to a string.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.strval
+_Implementation_: github.com/Masterminds/sprig/v3.strval
 
 ##  toStrings
 Converts a list, slice or array to a list of strings. `list 1 2 3 | toString` converts `1`, `2` and `3` to strings and then returns them as a list.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.strslice
+_Implementation_: github.com/Masterminds/sprig/v3.strslice
 
 ##  trim
 Removes space from either side of a string. `trim "  hello  "` will return `hello`.
 
 
 
-Implementation: strings.TrimSpace
+_Implementation_: strings.TrimSpace
 
 ##  trimAll
 Removes given characters from the front or back of a string. `trimAll "$" "$5.00"` will return `5.00` (as a string).
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func4
+_Implementation_: github.com/Masterminds/sprig/v3.init.func4
 
 ##  trimPrefix
 Trims just the prefix from a string. `trimPrefix "-" "-hello"` will return `hello`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func6
+_Implementation_: github.com/Masterminds/sprig/v3.init.func6
 
 ##  trimSuffix
 Trims just the suffix from a string. `trimSuffix "-" "hello-"` will return `hello`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func5
+_Implementation_: github.com/Masterminds/sprig/v3.init.func5
 
 ##  trimall
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func3
+_Implementation_: github.com/Masterminds/sprig/v3.init.func3
 
 ##  trunc
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.trunc
+_Implementation_: github.com/Masterminds/sprig/v3.trunc
 
 ##  tuple
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.list
+_Implementation_: github.com/Masterminds/sprig/v3.list
 
 ##  typeIs
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.typeIs
+_Implementation_: github.com/Masterminds/sprig/v3.typeIs
 
 ##  typeIsLike
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.typeIsLike
+_Implementation_: github.com/Masterminds/sprig/v3.typeIsLike
 
 ##  typeOf
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.typeOf
+_Implementation_: github.com/Masterminds/sprig/v3.typeOf
 
 ##  uniq
 Generates a list with all of the duplicates removed.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.uniq
+_Implementation_: github.com/Masterminds/sprig/v3.uniq
 
 ##  unixEpoch
 Returns the seconds since the Unix epoch.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.unixEpoch
+_Implementation_: github.com/Masterminds/sprig/v3.unixEpoch
 
 ##  unset
 Given a map and a key it deletes the key from the map. It returns dictionary. Note that if the key is not found this operation will simply return. No error will be generated.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.unset
+_Implementation_: github.com/Masterminds/sprig/v3.unset
 
 ##  until
 Builds a range of integers. `until 5` will return a list `[0, 1, 2, 3, 4]`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.until
+_Implementation_: github.com/Masterminds/sprig/v3.until
 
 ##  untilStep
 Like `until` generates a list of counting integers but it allows to define a start, stop and step. `untilStep 3 6 2` will return `[3, 5]` by starting with 3 and adding 2 until it is equal or greater than 6.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.untilStep
+_Implementation_: github.com/Masterminds/sprig/v3.untilStep
 
 ##  untitle
 Removes title casing. `untitle "Hello World"` will return `"hello world"`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.untitle
+_Implementation_: github.com/Masterminds/sprig/v3.untitle
 
 ##  upper
 Converts the entire string to uppercase. `upper "hello"` will return `HELLO`.
 
 
 
-Implementation: strings.ToUpper
+_Implementation_: strings.ToUpper
 
 ##  urlJoin
 Joins map produced by `urlParse` to produce URL string. `urlJoin (dict "fragment" "fragment" "host" "host:80" "path" "/path" "query" "query" "scheme" "http")` will return `proto://host:80/path?query#fragment`.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.urlJoin
+_Implementation_: github.com/Masterminds/sprig/v3.urlJoin
 
 ##  urlParse
 Parses string for URL and produces dict with URL parts. For more info check https://golang.org/pkg/net/url/#URL.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.urlParse
+_Implementation_: github.com/Masterminds/sprig/v3.urlParse
 
 ##  values
 
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.values
+_Implementation_: github.com/Masterminds/sprig/v3.values
 
 ##  without
 Filters items out of a list. It can take more than one filter.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.without
+_Implementation_: github.com/Masterminds/sprig/v3.without
 
 ##  wrap
 Wraps text at a given column count. `wrap 80 $text` will wrap the string in `$text` at 80 columns.
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func7
+_Implementation_: github.com/Masterminds/sprig/v3.init.func7
 
 ##  wrapWith
 Works as `wrap` but lets you specify the string to wrap with (`wrap` uses `
-`). `wrapWith` 5 "\t" "Hello world"` will return `hello world` (where the whitespace is an ASCII tab character).
+`). `wrapWith 5 "\t" "Hello world"` will return `hello world` (where the whitespace is an ASCII tab character).
 
 
 
-Implementation: github.com/Masterminds/sprig/v3.init.func8
+_Implementation_: github.com/Masterminds/sprig/v3.init.func8

@@ -207,5 +207,5 @@ var functionDocs = map[string]string{
 	"values":                     "",
 	"without":                    "Filters items out of a list. It can take more than one filter.",
 	"wrap":                       "Wraps text at a given column count. `wrap 80 $text` will wrap the string in `$text` at 80 columns.",
-	"wrapWith":                   "Works as `wrap` but lets you specify the string to wrap with (`wrap` uses `\n`). `wrapWith` 5 \"\\t\" \"Hello world\"` will return `hello world` (where the whitespace is an ASCII tab character).",
+	"wrapWith":                   "Works as `wrap` but lets you specify the string to wrap with (`wrap` uses `\n`). `wrapWith 5 \"\\t\" \"Hello world\"` will return `hello world` (where the whitespace is an ASCII tab character).",
 }
