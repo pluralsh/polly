@@ -18,3 +18,6 @@ release-vsn: # tags and pushes a new release
 	git pull --rebase; \
 	git tag -a $$tag -m "new release"; \
 	git push origin $$tag
+
+gen-docs: # generates docs for registered liquid template functions
+	go run github.com/pluralsh/polly/internal/template
