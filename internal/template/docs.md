@@ -16,14 +16,14 @@ Implementation: github.com/Masterminds/sprig/v3.abbrev
 Implementation: github.com/Masterminds/sprig/v3.abbrevboth
 
 ##  add
-Sums numbers. Accepts two or more inputs.
+Sums numbers. Accepts two or more inputs. `add 1 2 3` will return `6`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.init.func15
 
 ##  add1
-Increments by 1.
+Increments by 1. `add1 3` will return `4`.
 
 
 
@@ -79,7 +79,7 @@ Implementation: github.com/Masterminds/sprig/v3.any
 Implementation: github.com/Masterminds/sprig/v3.push
 
 ##  atoi
-
+Converts a string to an integer.
 
 
 
@@ -156,7 +156,7 @@ Implementation: github.com/huandu/xstrings.ToCamelCase
 Implementation: github.com/Masterminds/sprig/v3.cat
 
 ##  ceil
-
+Returns greatest float value greater than or equal to input value. `ceil 123.001` will return `124.0`.
 
 
 
@@ -198,7 +198,7 @@ Concatenates arbitrary number of lists into one.
 Implementation: github.com/Masterminds/sprig/v3.concat
 
 ##  contains
-
+Tests if one string is contained inside of another. `contains "cat" "catch"` will return `true`.
 
 
 
@@ -240,7 +240,7 @@ Implementation: github.com/Masterminds/sprig/v3.dateInZone
 Implementation: github.com/Masterminds/sprig/v3.dateModify
 
 ##  decryptAES
-
+Receives a Base64 string encoded by the AES-256 CBC algorithm and returns the decoded text.
 
 
 
@@ -331,7 +331,7 @@ Implementation: github.com/Masterminds/sprig/v3.durationRound
 Implementation: github.com/Masterminds/sprig/v3.empty
 
 ##  encryptAES
-
+Encrypts text with AES-256 CBC and returns a Base64 encoded string.
 
 
 
@@ -373,14 +373,14 @@ Implementation: github.com/Masterminds/sprig/v3.init.func26
 Implementation: github.com/Masterminds/sprig/v3.first
 
 ##  float64
-
+Converts to a `float64`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.toFloat64
 
 ##  floor
-Returns the greatest float value greater than or equal to input value.
+Returns the greatest float value greater than or equal to input value. `floor 123.9999` will return `123.0`.
 
 
 
@@ -394,14 +394,14 @@ Aliases: from_json
 Implementation: github.com/Masterminds/sprig/v3.fromJson
 
 ##  genCA
-
+Generates a new, self-signed x509 SSL Certificate Authority using 2048-bit RSA private key. It takes subject common name (CN) and cert validity duration in days as parameters. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.generateCertificateAuthority
 
 ##  genCAWithKey
-
+Generates a new, self-signed x509 SSL Certificate Authority using given private key. It takes subject common name (CN), cert validity duration in days and private key (PEM-encoded; DSA keys are not supported) as parameters. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.
 
 
 
@@ -415,7 +415,7 @@ Implementation: github.com/Masterminds/sprig/v3.generateCertificateAuthorityWith
 Implementation: github.com/Masterminds/sprig/v3.generatePrivateKey
 
 ##  genSelfSignedCert
-
+Generates an SSL self-signed certificate.
 
 
 
@@ -429,7 +429,7 @@ Implementation: github.com/Masterminds/sprig/v3.generateSelfSignedCertificate
 Implementation: github.com/Masterminds/sprig/v3.generateSelfSignedCertificateWithPEMKey
 
 ##  genSignedCert
-
+Generates an SSL certificate and key based on a given CA.
 
 
 
@@ -527,14 +527,14 @@ Implementation: github.com/Masterminds/sprig/v3.initial
 Implementation: github.com/Masterminds/sprig/v3.initials
 
 ##  int
-
+Converts to a `int`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.toInt
 
 ##  int64
-
+Converts to a `int64`.
 
 
 
@@ -597,14 +597,14 @@ Implementation: github.com/Masterminds/sprig/v3.last
 Implementation: github.com/Masterminds/sprig/v3.list
 
 ##  lower
-Converts the entire string to lowercase. `upper "HELLO"` produces `hello`.
+Converts the entire string to lowercase. `upper "HELLO"` will return `hello`.
 
 
 
 Implementation: strings.ToLower
 
 ##  max
-Returns the largest of a series of integers.
+Returns the largest of a series of integers. `max 1 2 3` will return `3`.
 
 
 
@@ -632,7 +632,7 @@ Implementation: github.com/Masterminds/sprig/v3.merge
 Implementation: github.com/Masterminds/sprig/v3.mergeOverwrite
 
 ##  min
-Returns the smallest of a series of integers.
+Returns the smallest of a series of integers. `min 1 2 3` will return `1`.
 
 
 
@@ -653,7 +653,7 @@ Implementation: github.com/Masterminds/sprig/v3.minf
 Implementation: github.com/Masterminds/sprig/v3.init.func18
 
 ##  mul
-
+Multiples numbers. Accepts two or more inputs. `mul 1 2 3` will return `6`.
 
 
 
@@ -884,7 +884,7 @@ Implementation: github.com/Masterminds/sprig/v3.mustDateModify
 Implementation: github.com/pluralsh/polly/template.nindent
 
 ##  nospace
-
+Removes all whitespace from a string. `nospace "hello w o r l d"` will return `helloworld`.
 
 
 
@@ -1003,7 +1003,7 @@ Implementation: github.com/Masterminds/sprig/v3.randAscii
 Implementation: github.com/Masterminds/sprig/v3.randBytes
 
 ##  randInt
-Returns a random integer value from min (inclusive) to max (exclusive).
+Returns a random integer value from min (inclusive) to max (exclusive). `randInt 12 30` will produce a random number in the range from 12 to 30.
 
 
 
@@ -1094,7 +1094,7 @@ Produces a new list with the reversed elements of the given list.
 Implementation: github.com/Masterminds/sprig/v3.reverse
 
 ##  round
-Returns a float value with the remainder rounded to the given number to digits after the decimal point.
+Returns a float value with the remainder rounded to the given number to digits after the decimal point. `round 123.55555 3` will return `123.556`.
 
 
 
@@ -1115,7 +1115,7 @@ Aliases: semver_compare
 Implementation: github.com/Masterminds/sprig/v3.semverCompare
 
 ##  seq
-
+Works like Bash `seq` command. Specify 1 parameter (`end`) to generate all counting integers between 1 and `end` inclusive. Specify 2 parameters (`start` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by 1. Specify 3 parameters (`start`, `step` and `end) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by `step`.
 
 
 
@@ -1227,14 +1227,14 @@ Implementation: github.com/Masterminds/sprig/v3.substring
 Implementation: github.com/Masterminds/goutils.SwapCase
 
 ##  ternary
-
+Takes two values and a test value. If the test value is true, the first value will be returned. If the test value is false, the second value will be returned. This is similar to the C ternary operator. `ternary "foo" "bar" true` or `true | "foo" "bar"` will return `"foo"`.
 
 
 
 Implementation: github.com/pluralsh/polly/template.ternary
 
 ##  title
-
+Converts a string to title case. `title "hello world"` will return `"Hello World"`.
 
 
 
@@ -1248,7 +1248,7 @@ Converts a string to a date. The first argument is the date layout and the secon
 Implementation: github.com/Masterminds/sprig/v3.toDate
 
 ##  toDecimal
-
+Converts a Unix octal to a `int64`.`"0777" | toDecimal` will convert `0777` to `511` and return the value as `int64`.
 
 
 
@@ -1269,49 +1269,49 @@ Implementation: github.com/Masterminds/sprig/v3.toJson
 Implementation: github.com/Masterminds/sprig/v3.toPrettyJson
 
 ##  toRawJson
-
+Encodes an item into JSON string with HTML characters unescaped. `toRawJson .Item` will return unescaped JSON string representation of `.Item`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.toRawJson
 
 ##  toString
-
+Converts to a string.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.strval
 
 ##  toStrings
-
+Converts a list, slice or array to a list of strings. `list 1 2 3 | toString` converts `1`, `2` and `3` to strings and then returns them as a list.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.strslice
 
 ##  trim
-Removes space from either side of a string. `trim "  hello  "` produces `hello`.
+Removes space from either side of a string. `trim "  hello  "` will return `hello`.
 
 
 
 Implementation: strings.TrimSpace
 
 ##  trimAll
-Removes given characters from the front or back of a string. `trimAll "$" "$5.00"` produces `5.00` (as a string).
+Removes given characters from the front or back of a string. `trimAll "$" "$5.00"` will return `5.00` (as a string).
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.init.func4
 
 ##  trimPrefix
-Trims just the prefix from a string. `trimPrefix "-" "-hello"` produces `hello`.
+Trims just the prefix from a string. `trimPrefix "-" "-hello"` will return `hello`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.init.func6
 
 ##  trimSuffix
-Trims just the suffix from a string. `trimSuffix "-" "hello-"` produces `hello`.
+Trims just the suffix from a string. `trimSuffix "-" "hello-"` will return `hello`.
 
 
 
@@ -1381,42 +1381,42 @@ Implementation: github.com/Masterminds/sprig/v3.unixEpoch
 Implementation: github.com/Masterminds/sprig/v3.unset
 
 ##  until
-
+Builds a range of integers. `until 5` will return a list `[0, 1, 2, 3, 4]`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.until
 
 ##  untilStep
-
+Like `until` generates a list of counting integers but it allows to define a start, stop and step. `untilStep 3 6 2` will return `[3, 5]` by starting with 3 and adding 2 until it is equal or greater than 6.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.untilStep
 
 ##  untitle
-
+Removes title casing. `untitle "Hello World"` will return `"hello world"`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.untitle
 
 ##  upper
-Converts the entire string to uppercase. `upper "hello"` produces `HELLO`.
+Converts the entire string to uppercase. `upper "hello"` will return `HELLO`.
 
 
 
 Implementation: strings.ToUpper
 
 ##  urlJoin
-
+Joins map produced by `urlParse` to produce URL string. `urlJoin (dict "fragment" "fragment" "host" "host:80" "path" "/path" "query" "query" "scheme" "http")` will return `proto://host:80/path?query#fragment`.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.urlJoin
 
 ##  urlParse
-
+Parses string for URL and produces dict with URL parts. For more info check https://golang.org/pkg/net/url/#URL.
 
 
 
@@ -1430,21 +1430,22 @@ Implementation: github.com/Masterminds/sprig/v3.urlParse
 Implementation: github.com/Masterminds/sprig/v3.values
 
 ##  without
-Filters items out of a list.
+Filters items out of a list. It can take more than one filter.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.without
 
 ##  wrap
-
+Wraps text at a given column count. `wrap 80 $text` will wrap the string in `$text` at 80 columns.
 
 
 
 Implementation: github.com/Masterminds/sprig/v3.init.func7
 
 ##  wrapWith
-
+Works as `wrap` but lets you specify the string to wrap with (`wrap` uses `
+`). `wrapWith` 5 "\t" "Hello world"` will return `hello world` (where the whitespace is an ASCII tab character).
 
 
 
