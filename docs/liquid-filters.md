@@ -1450,8 +1450,7 @@ Wraps text at a given column count. `wrap 80 $text` will wrap the string in `$te
 _Implementation_: github.com/Masterminds/sprig/v3.init.func7
 
 ##  wrapWith
-Works as `wrap` but lets you specify the string to wrap with (`wrap` uses `
-`). `wrapWith 5 "\t" "Hello world"` will return `hello world` (where the whitespace is an ASCII tab character).
+Works as `wrap` but lets you specify the string to wrap with (`wrap` uses `\n`). `wrapWith 5 "\t" "Hello world"` will return `hello world` (where the whitespace is an ASCII tab character).
 
 
 
