@@ -611,7 +611,7 @@ Performs integer division.
 _Implementation_: `github.com/Masterminds/sprig/v3.init.func17`
 
 ##  `divf`
-
+Performs float number division.
 
 
 

@@ -144,7 +144,9 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 	"div": {
 		Description: "Performs integer division.",
 	},
-	"divf": {},
+	"divf": {
+		Description: "Performs float number division.",
+	},
 	"duration": {
 		Description: "Formats a given amount of seconds as a `time.Duration`.",
 		Parameters:  []string{"Amount of seconds"},
