@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"os"
+	"path"
 	"sort"
 	"strings"
 	"text/template"
@@ -14,15 +15,7 @@ import (
 
 const (
 	docsPath     = "docs/liquid-filters.md"
-	docsTemplate = `# Supported Liquid Filters
-{{ range . }}
-##  {{ .Name }}
-{{ .Description }}
-
-{{ if .Aliases }}_Aliases_: {{ .Aliases | join ", " }}{{ end }}
-
-_Implementation_: {{ .Implementation }}
-{{ end }}`
+	docsTemplate = "docs/liquid-filters.tmpl"
 )
 
 func main() {
@@ -46,6 +39,6 @@ func registeredFilters() []tmpl.FilterFunction {
 }
 
 func generateFilterDocs(writer io.Writer, filters []tmpl.FilterFunction) error {
-	t := template.Must(template.New("").Funcs(sprig.TxtFuncMap()).Parse(docsTemplate))
+	t := template.Must(template.New(path.Base(docsTemplate)).Funcs(sprig.TxtFuncMap()).ParseFiles(docsTemplate))
 	return t.Execute(writer, filters)
 }
