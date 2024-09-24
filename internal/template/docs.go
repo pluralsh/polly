@@ -24,7 +24,7 @@ func main() {
 		panic(err)
 	}
 
-	if err = generateFilterDocs(f, registeredFilters()); err != nil {
+	if err = generateFilterDocs(f, registeredFilters(), docsTemplate); err != nil {
 		panic(err)
 	}
 }
@@ -38,7 +38,7 @@ func registeredFilters() []tmpl.FilterFunction {
 	return filters
 }
 
-func generateFilterDocs(writer io.Writer, filters []tmpl.FilterFunction) error {
-	t := template.Must(template.New(path.Base(docsTemplate)).Funcs(sprig.TxtFuncMap()).ParseFiles(docsTemplate))
+func generateFilterDocs(writer io.Writer, filters []tmpl.FilterFunction, templatePath string) error {
+	t := template.Must(template.New(path.Base(templatePath)).Funcs(sprig.TxtFuncMap()).ParseFiles(templatePath))
 	return t.Execute(writer, filters)
 }
