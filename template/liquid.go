@@ -27,14 +27,17 @@ var (
 	liquidEngine = liquid.NewEngine()
 
 	// excludedSprigFunctions contains names of Spring functions that will be excluded.
-	excludedSprigFunctions = []string{"hello", "now", "uuidv4"}
+	excludedSprigFunctions = []string{"date_in_zone", "hello", "now", "uuidv4"}
 
 	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
 	sprigFunctionNameAliases = map[string][]string{
-		"toJson":        {"to_json"},
-		"fromJson":      {"from_json"},
-		"semverCompare": {"semver_compare"},
-		"sha256sum":     {"sha26sum"},
+		"dateInZone":     {"date_in_zone"},
+		"dateModify":     {"date_modify"},
+		"mustDateModify": {"must_date_modify"},
+		"toJson":         {"to_json"},
+		"fromJson":       {"from_json"},
+		"semverCompare":  {"semver_compare"},
+		"sha256sum":      {"sha26sum"},
 	}
 
 	// internalFunctions to register. These will override Sprig functions if same names are used.

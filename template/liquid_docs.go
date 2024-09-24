@@ -119,15 +119,22 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 	"dateInZone": {
 		Description: "Same as `date` but with a timezone.",
 		Parameters:  []string{"Date layout", "Date to format", "Timezone"},
+		Example:     "`dateInZone \"2006-01-02\" (now) \"UTC\"`.",
 	},
-	"dateModify":   {},
-	"date_in_zone": {},
-	"date_modify":  {},
+	"dateModify": {
+		Description: "Allows date modifications.",
+		Parameters:  []string{"Date modification", "Date"},
+		Example:     "`now | dateModify \"-1.5h\"` will subtract an hour and thirty minutes from the current time.",
+	},
 	"decryptAES": {
 		Description: "Receives a Base64 string encoded by the AES-256 CBC algorithm and returns the decoded text.",
 		Parameters:  []string{"Base64 string encoded by the AES-256 CBC algorithm"},
 	},
-	"deepCopy":       {},
+	"deepCopy": {
+		Description: "Makes deep copy of the value. This includes maps and other structures. It will panic if there is a problem.",
+		Parameters:  []string{"Value to copy"},
+		Example:     "`dict \"a\" 1 \"b\" 2 | deepCopy`.",
+	},
 	"deepEqual":      {},
 	"default":        {},
 	"derivePassword": {},
@@ -144,7 +151,11 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Example:     "`duration \"95\"` returns `1m35s`.",
 	},
 	"durationRound": {},
-	"empty":         {},
+	"empty": {
+		Description: "Returns true if given value has the zero value for its type.",
+		Parameters:  []string{"Value"},
+		Example:     "`empty .Foo`.",
+	},
 	"encryptAES": {
 		Description: "Encrypts text with AES-256 CBC and returns a Base64 encoded string.",
 		Parameters:  []string{"Secret key", "Text to encrypt"},
@@ -183,7 +194,11 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Parameters:  []string{"Input value"},
 		Example:     "`floor 123.9999` will return `123.0`",
 	},
-	"fromJson": {},
+	"fromJson": {
+		Description: "Decodes a JSON document into a structure. If the input cannot be decoded as JSON the function will return an empty string.",
+		Parameters:  []string{"JSON document"},
+		Example:     "`fromJson \"{\\\"foo\\\": 55}\"`.",
+	},
 	"genCA": {
 		Description: "Generates a new, self-signed x509 SSL Certificate Authority using 2048-bit RSA private key. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.",
 		Parameters:  []string{"Subject common name (CN)", "Cert validity duration in days"},
@@ -192,7 +207,10 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Description: "Generates a new, self-signed x509 SSL Certificate Authority using given private key. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.",
 		Parameters:  []string{"Subject common name (CN)", "Cert validity duration in days", "private key (PEM-encoded; DSA keys are not supported)"},
 	},
-	"genPrivateKey": {},
+	"genPrivateKey": {
+		Description: "Generates a new private key encoded into a PEM block.",
+		Parameters:  []string{"Key type (ecdsa, dsa, rsa or ed25519)"},
+	},
 	"genSelfSignedCert": {
 		Description: "Generates an SSL self-signed certificate.",
 	},
@@ -208,9 +226,18 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Parameters:  []string{"Element to find", "List"},
 		Example:     "`has 4 $myList`",
 	},
-	"hasKey":    {},
-	"hasPrefix": {},
-	"hasSuffix": {},
+	"hasKey": {
+		Description: "Checks if given dictionary contains given key.",
+		Parameters:  []string{"Map", "Key to find"},
+	},
+	"hasPrefix": {
+		Description: "Check if string has given prefix.",
+		Parameters:  []string{"Prefix", "String"},
+	},
+	"hasSuffix": {
+		Description: "Check if string has given suffix.",
+		Parameters:  []string{"Prefix", "Suffix"},
+	},
 	"htmlDate": {
 		Description: "Formats a date for inserting into HTML date picker input field.",
 		Parameters:  []string{"Date"},
@@ -354,8 +381,7 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Parameters:  []string{"CList", "Item to filter out"},
 		Example:     "`mustWithout ( list 1 2 3 4 5) 1 3 5` returns `[2, 4]`.",
 	},
-	"must_date_modify": {},
-	"nindent":          {},
+	"nindent": {},
 	"nospace": {
 		Description: "Removes all whitespace from a string.",
 		Parameters:  []string{"String to transform"},
@@ -432,10 +458,17 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 	"seq": {
 		Description: "Works like Bash `seq` command. Specify 1 parameter (`end`) to generate all counting integers between 1 and `end` inclusive. Specify 2 parameters (`start` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by 1. Specify 3 parameters (`start`, `step` and `end`) to generate all counting integers between `start` and `end` inclusive incrementing or decrementing by `step`.",
 	},
-	"set":       {},
-	"sha1sum":   {},
-	"sha256sum": {},
-	"sha512sum": {},
+	"set":     {},
+	"sha1sum": {},
+	"sha256sum": {
+		Description: "Generates SHA256 hash of an input.",
+		Parameters:  []string{"Input value"},
+	},
+	"sha512sum": {
+		Description: "Generates SHA512 hash of an input.",
+		Parameters:  []string{"Input value"},
+		Example:     "`sha512sum \"Hello world!\"`.",
+	},
 	"shuffle":   {},
 	"slice":     {},
 	"snakecase": {},

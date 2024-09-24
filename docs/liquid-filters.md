@@ -483,29 +483,30 @@ _Parameters_:
 
 
 
+_Example_: `dateInZone "2006-01-02" (now) "UTC"`.
 
 
+_Aliases_: `date_in_zone`\
 _Implementation_: `github.com/Masterminds/sprig/v3.dateInZone`
 
 ##  `dateModify`
+Allows date modifications.
+
+
+_Parameters_:
+
+- Date modification
+
+- Date
 
 
 
 
+_Example_: `now | dateModify "-1.5h"` will subtract an hour and thirty minutes from the current time.
 
 
-
+_Aliases_: `date_modify`\
 _Implementation_: `github.com/Masterminds/sprig/v3.dateModify`
-
-##  `date_in_zone`
-
-
-
-
-
-
-
-_Implementation_: `github.com/Masterminds/sprig/v3.dateInZone`
 
 ##  `date_modify`
 
@@ -533,10 +534,17 @@ _Parameters_:
 _Implementation_: `github.com/Masterminds/sprig/v3.decryptAES`
 
 ##  `deepCopy`
+Makes deep copy of the value. This includes maps and other structures. It will panic if there is a problem.
+
+
+_Parameters_:
+
+- Value to copy
 
 
 
 
+_Example_: `dict "a" 1 "b" 2 | deepCopy`.
 
 
 
@@ -650,10 +658,17 @@ _Implementation_: `github.com/Masterminds/sprig/v3.duration`
 _Implementation_: `github.com/Masterminds/sprig/v3.durationRound`
 
 ##  `empty`
+Returns true if given value has the zero value for its type.
+
+
+_Parameters_:
+
+- Value
 
 
 
 
+_Example_: `empty .Foo`.
 
 
 
@@ -794,10 +809,17 @@ _Example_: `floor 123.9999` will return `123.0`
 _Implementation_: `github.com/Masterminds/sprig/v3.floor`
 
 ##  `fromJson`
+Decodes a JSON document into a structure. If the input cannot be decoded as JSON the function will return an empty string.
+
+
+_Parameters_:
+
+- JSON document
 
 
 
 
+_Example_: `fromJson "{\"foo\": 55}"`.
 
 
 _Aliases_: `from_json`\
@@ -840,7 +862,12 @@ _Parameters_:
 _Implementation_: `github.com/Masterminds/sprig/v3.generateCertificateAuthorityWithPEMKey`
 
 ##  `genPrivateKey`
+Generates a new private key encoded into a PEM block.
 
+
+_Parameters_:
+
+- Key type (ecdsa, dsa, rsa or ed25519)
 
 
 
@@ -929,7 +956,14 @@ _Example_: `has 4 $myList`
 _Implementation_: `github.com/Masterminds/sprig/v3.has`
 
 ##  `hasKey`
+Checks if given dictionary contains given key.
 
+
+_Parameters_:
+
+- Map
+
+- Key to find
 
 
 
@@ -939,7 +973,14 @@ _Implementation_: `github.com/Masterminds/sprig/v3.has`
 _Implementation_: `github.com/Masterminds/sprig/v3.hasKey`
 
 ##  `hasPrefix`
+Check if string has given prefix.
 
+
+_Parameters_:
+
+- Prefix
+
+- String
 
 
 
@@ -949,7 +990,14 @@ _Implementation_: `github.com/Masterminds/sprig/v3.hasKey`
 _Implementation_: `github.com/Masterminds/sprig/v3.init.func10`
 
 ##  `hasSuffix`
+Check if string has given suffix.
 
+
+_Parameters_:
+
+- Prefix
+
+- Suffix
 
 
 
@@ -1383,7 +1431,7 @@ _Implementation_: `github.com/Masterminds/sprig/v3.mustCompact`
 
 
 
-
+_Aliases_: `must_date_modify`\
 _Implementation_: `github.com/Masterminds/sprig/v3.mustDateModify`
 
 ##  `mustDeepCopy`
@@ -2148,7 +2196,12 @@ _Implementation_: `github.com/Masterminds/sprig/v3.set`
 _Implementation_: `github.com/Masterminds/sprig/v3.sha1sum`
 
 ##  `sha256sum`
+Generates SHA256 hash of an input.
 
+
+_Parameters_:
+
+- Input value
 
 
 
@@ -2158,10 +2211,17 @@ _Aliases_: `sha26sum`\
 _Implementation_: `github.com/Masterminds/sprig/v3.sha256sum`
 
 ##  `sha512sum`
+Generates SHA512 hash of an input.
+
+
+_Parameters_:
+
+- Input value
 
 
 
 
+_Example_: `sha512sum "Hello world!"`.
 
 
 
