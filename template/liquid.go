@@ -13,8 +13,14 @@ import (
 type FilterFunction struct {
 	Name           string   `json:"name"`
 	Aliases        []string `json:"aliases,omitempty"`
-	Description    string   `json:"description,omitempty"`
+	Documentation  string   `json:"description,omitempty"`
 	Implementation string   `json:"implementation,omitempty"`
+}
+
+type FilterFunctionDocumentation struct {
+	Description string   `json:"description,omitempty"`
+	Parameters  []string `json:"parameters,omitempty"`
+	Example     string   `json:"example,omitempty"`
 }
 
 var (
