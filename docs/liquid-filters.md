@@ -508,16 +508,6 @@ _Example_: `now | dateModify "-1.5h"` will subtract an hour and thirty minutes f
 _Aliases_: `date_modify`\
 _Implementation_: `github.com/Masterminds/sprig/v3.dateModify`
 
-##  `date_modify`
-
-
-
-
-
-
-
-_Implementation_: `github.com/Masterminds/sprig/v3.dateModify`
-
 ##  `decryptAES`
 Receives a Base64 string encoded by the AES-256 CBC algorithm and returns the decoded text.
 
@@ -1741,16 +1731,6 @@ _Example_: `mustWithout ( list 1 2 3 4 5) 1 3 5` returns `[2, 4]`.
 
 
 _Implementation_: `github.com/Masterminds/sprig/v3.mustWithout`
-
-##  `must_date_modify`
-
-
-
-
-
-
-
-_Implementation_: `github.com/Masterminds/sprig/v3.mustDateModify`
 
 ##  `nindent`
 

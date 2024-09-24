@@ -27,7 +27,14 @@ var (
 	liquidEngine = liquid.NewEngine()
 
 	// excludedSprigFunctions contains names of Spring functions that will be excluded.
-	excludedSprigFunctions = []string{"date_in_zone", "hello", "now", "uuidv4"}
+	excludedSprigFunctions = []string{
+		"date_in_zone",
+		"date_modify",
+		"hello",
+		"must_date_modify",
+		"now",
+		"uuidv4",
+	}
 
 	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
 	sprigFunctionNameAliases = map[string][]string{
