@@ -336,10 +336,17 @@ _Example_: `$ca := buildCustomCert "base64-encoded-ca-crt" "base64-encoded-ca-ke
 _Implementation_: `github.com/Masterminds/sprig/v3.buildCustomCertificate`
 
 ##  `camelcase`
+Converts a string from snake_case to camelCase.
+
+
+_Parameters_:
+
+- String to convert
 
 
 
 
+_Example_: `camelcase "http_server"` returns `HttpServer`.
 
 
 
@@ -1133,10 +1140,17 @@ _Implementation_: `path.IsAbs`
 _Implementation_: `github.com/Masterminds/sprig/v3.join`
 
 ##  `kebabcase`
+Converts a string from camelCase to kebab-case.
+
+
+_Parameters_:
+
+- String to convert
 
 
 
 
+_Example_: `kebabcase "FirstName"` returns `first-name`.
 
 
 
@@ -2208,10 +2222,17 @@ _Example_: `sha512sum "Hello world!"`.
 _Implementation_: `github.com/Masterminds/sprig/v3.sha512sum`
 
 ##  `shuffle`
+Shuffles a string.
+
+
+_Parameters_:
+
+- String to shuffle
 
 
 
 
+_Example_: `shuffle "hello"`.
 
 
 
@@ -2228,10 +2249,17 @@ _Implementation_: `github.com/huandu/xstrings.Shuffle`
 _Implementation_: `github.com/Masterminds/sprig/v3.slice`
 
 ##  `snakecase`
+Converts a string from camelCase to snake_case.
+
+
+_Parameters_:
+
+- String to convert
 
 
 
 
+_Example_: `camelcase "FirstName"` returns `first_name`.
 
 
 
@@ -2318,10 +2346,17 @@ _Implementation_: `github.com/Masterminds/sprig/v3.init.func23`
 _Implementation_: `github.com/Masterminds/sprig/v3.substring`
 
 ##  `swapcase`
+Swaps the case of a string using a word based algorithm.
+
+
+_Parameters_:
+
+- String to convert
 
 
 
 
+_Example_: `swapcase "This Is A.Test"` returns `tHIS iS a.tEST`.
 
 
 

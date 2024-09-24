@@ -89,8 +89,12 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Parameters:  []string{"Base64 encoded PEM format certificate", "Base64 encoded PEM format private key"},
 		Example:     "`$ca := buildCustomCert \"base64-encoded-ca-crt\" \"base64-encoded-ca-key\"`",
 	},
-	"camelcase": {},
-	"cat":       {},
+	"camelcase": {
+		Description: "Converts a string from snake_case to camelCase.",
+		Parameters:  []string{"String to convert"},
+		Example:     "`camelcase \"http_server\"` returns `HttpServer`.",
+	},
+	"cat": {},
 	"ceil": {
 		Description: "Returns greatest float value greater than or equal to input value.",
 		Parameters:  []string{"Input value"},
@@ -269,8 +273,12 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Description: "Checks whether a path is absolute.",
 		Parameters:  []string{"File path"},
 	},
-	"join":      {},
-	"kebabcase": {},
+	"join": {},
+	"kebabcase": {
+		Description: "Converts a string from camelCase to kebab-case.",
+		Parameters:  []string{"String to convert"},
+		Example:     "`kebabcase \"FirstName\"` returns `first-name`.",
+	},
 	"keys": {
 		Description: "Returns list of all keys from a map.",
 		Parameters:  []string{"Map"},
@@ -471,9 +479,17 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Parameters:  []string{"Input value"},
 		Example:     "`sha512sum \"Hello world!\"`.",
 	},
-	"shuffle":   {},
-	"slice":     {},
-	"snakecase": {},
+	"shuffle": {
+		Description: "Shuffles a string.",
+		Parameters:  []string{"String to shuffle"},
+		Example:     "`shuffle \"hello\"`.",
+	},
+	"slice": {},
+	"snakecase": {
+		Description: "Converts a string from camelCase to snake_case.",
+		Parameters:  []string{"String to convert"},
+		Example:     "`camelcase \"FirstName\"` returns `first_name`.",
+	},
 	"sortAlpha": {},
 	"split":     {},
 	"splitList": {},
@@ -482,7 +498,11 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 	"sub":       {},
 	"subf":      {},
 	"substr":    {},
-	"swapcase":  {},
+	"swapcase": {
+		Description: "Swaps the case of a string using a word based algorithm.",
+		Parameters:  []string{"String to convert"},
+		Example:     "`swapcase \"This Is A.Test\"` returns `tHIS iS a.tEST`.",
+	},
 	"ternary": {
 		Description: "Takes two values and a test value. If the test value is true, the first value will be returned. If the test value is false, the second value will be returned. This is similar to the C ternary operator.",
 		Parameters:  []string{"First value", "Second value", "Test value"},
