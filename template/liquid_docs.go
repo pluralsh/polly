@@ -144,7 +144,10 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Description: "Returns head item on a list.",
 		Parameters:  []string{"The list."},
 	},
-	"float64":                  "Converts to a `float64`.",
+	"float64": {
+		Description: "Converts to a `float64`.",
+		Parameters:  []string{"The value to convert. It can be for example an integer or a string."},
+	},
 	"floor":                    "Returns the greatest float value greater than or equal to input value. `floor 123.9999` will return `123.0`.",
 	"fromJson":                 {},
 	"genCA":                    "Generates a new, self-signed x509 SSL Certificate Authority using 2048-bit RSA private key. It takes subject common name (CN) and cert validity duration in days as parameters. It returns object with PEM-encoded certificate and key. Note that the returned object can be passed to the `genSignedCert` function to sign a certificate using this CA.",
@@ -170,11 +173,20 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 	"indent":         {},
 	"initial":        "Compliments `last` by retuning all but the last element.",
 	"initials":       {},
-	"int":            "Converts to a `int`.",
-	"int64":          "Converts to a `int64`.",
-	"isAbs":          "Checks whether a path is absolute.",
-	"join":           {},
-	"kebabcase":      {},
+	"int": {
+		Description: "Converts to a `int`.",
+		Parameters:  []string{"The value to convert."},
+	},
+	"int64": {
+		Description: "Converts to a `int64`.",
+		Parameters:  []string{"The value to convert."},
+	},
+	"isAbs": {
+		Description: "Checks whether a path is absolute.",
+		Parameters:  []string{"The file path."},
+	},
+	"join":      {},
+	"kebabcase": {},
 	"keys": {
 		Description: "Returns list of all keys from a map.",
 		Parameters:  []string{"The map."},
@@ -357,10 +369,25 @@ var functionDocs = map[string]FilterFunctionDocumentation{
 		Description: "Generates a list with all of the duplicates removed.",
 		Parameters:  []string{"The list."},
 	},
-	"unixEpoch": "Returns the seconds since the Unix epoch.",
-	"unset":     "Given a map and a key it deletes the key from the map. It returns dictionary. Note that if the key is not found this operation will simply return. No error will be generated.",
-	"until":     "Builds a range of integers. `until 5` will return a list `[0, 1, 2, 3, 4]`.",
-	"untilStep": "Like `until` generates a list of counting integers but it allows to define a start, stop and step. `untilStep 3 6 2` will return `[3, 5]` by starting with 3 and adding 2 until it is equal or greater than 6.",
+	"unixEpoch": {
+		Description: "Returns the seconds since the Unix epoch for a time.",
+		Parameters:  []string{"The time (`time.Time`)."},
+		Example:     "`now | unixEpoch`",
+	},
+	"unset": {
+		Description: "Given a map and a key it deletes the key from the map. It returns dictionary. Note that if the key is not found this operation will simply return. No error will be generated.",
+		Parameters:  []string{"The map.", "The key of an item to delete."},
+	},
+	"until": {
+		Description: "Builds a range of integers.",
+		Parameters:  []string{"Max value (exclusive)."},
+		Example:     "`until 5` will return a list `[0, 1, 2, 3, 4]`.",
+	},
+	"untilStep": {
+		Description: "Like `until` generates a list of counting integers but it allows to define a start, stop and step.",
+		Parameters:  []string{"Start value (inclusive)", "Max value (exclusive).", "Step."},
+		Example:     "`untilStep 3 6 2` will return `[3, 5]` by starting with 3 and adding 2 until it is equal or greater than 6.",
+	},
 	"untitle": {
 		Description: "Removes title casing.",
 		Parameters:  []string{"The string."},
