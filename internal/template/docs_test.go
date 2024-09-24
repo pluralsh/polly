@@ -10,7 +10,7 @@ import (
 
 func TestLiquidFunctionDocs(t *testing.T) {
 	b := new(bytes.Buffer)
-	err := generateFilterDocs(b, registeredFilters())
+	err := generateFilterDocs(b, registeredFilters(), "../../docs/liquid-filters.tmpl")
 	assert.NoError(t, err)
 
 	f, err := os.ReadFile("../../docs/liquid-filters.md")

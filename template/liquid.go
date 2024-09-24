@@ -11,24 +11,40 @@ import (
 )
 
 type FilterFunction struct {
-	Name           string   `json:"name"`
-	Aliases        []string `json:"aliases,omitempty"`
-	Description    string   `json:"description,omitempty"`
-	Implementation string   `json:"implementation,omitempty"`
+	Name           string                      `json:"name"`
+	Aliases        []string                    `json:"aliases,omitempty"`
+	Documentation  FilterFunctionDocumentation `json:"description,omitempty"`
+	Implementation string                      `json:"implementation,omitempty"`
+}
+
+type FilterFunctionDocumentation struct {
+	Description string   `json:"description,omitempty"`
+	Parameters  []string `json:"parameters,omitempty"`
+	Example     string   `json:"example,omitempty"`
 }
 
 var (
 	liquidEngine = liquid.NewEngine()
 
 	// excludedSprigFunctions contains names of Spring functions that will be excluded.
-	excludedSprigFunctions = []string{"hello", "now", "uuidv4"}
+	excludedSprigFunctions = []string{
+		"date_in_zone",
+		"date_modify",
+		"hello",
+		"must_date_modify",
+		"now",
+		"uuidv4",
+	}
 
 	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
 	sprigFunctionNameAliases = map[string][]string{
-		"toJson":        {"to_json"},
-		"fromJson":      {"from_json"},
-		"semverCompare": {"semver_compare"},
-		"sha256sum":     {"sha26sum"},
+		"dateInZone":     {"date_in_zone"},
+		"dateModify":     {"date_modify"},
+		"mustDateModify": {"must_date_modify"},
+		"toJson":         {"to_json"},
+		"fromJson":       {"from_json"},
+		"semverCompare":  {"semver_compare"},
+		"sha256sum":      {"sha26sum"},
 	}
 
 	// internalFunctions to register. These will override Sprig functions if same names are used.
@@ -68,7 +84,7 @@ func registerFilter(name string, aliases []string, fn any) {
 	registeredFunctions[name] = FilterFunction{
 		Name:           name,
 		Aliases:        aliases,
-		Description:    functionDocs[name],
+		Documentation:  functionDocs[name],
 		Implementation: runtime.FuncForPC(reflect.ValueOf(fn).Pointer()).Name(),
 	}
 }
