@@ -11,10 +11,10 @@ import (
 )
 
 type FilterFunction struct {
-	Name           string   `json:"name"`
-	Aliases        []string `json:"aliases,omitempty"`
-	Documentation  string   `json:"description,omitempty"`
-	Implementation string   `json:"implementation,omitempty"`
+	Name           string                      `json:"name"`
+	Aliases        []string                    `json:"aliases,omitempty"`
+	Documentation  FilterFunctionDocumentation `json:"description,omitempty"`
+	Implementation string                      `json:"implementation,omitempty"`
 }
 
 type FilterFunctionDocumentation struct {
@@ -74,7 +74,7 @@ func registerFilter(name string, aliases []string, fn any) {
 	registeredFunctions[name] = FilterFunction{
 		Name:           name,
 		Aliases:        aliases,
-		Description:    functionDocs[name],
+		Documentation:  functionDocs[name],
 		Implementation: runtime.FuncForPC(reflect.ValueOf(fn).Pointer()).Name(),
 	}
 }
