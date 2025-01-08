@@ -34,6 +34,11 @@ var (
 		"must_date_modify",
 		"now",
 		"uuidv4",
+		"split",
+		"join",
+		"downcase",
+		"upcase",
+		"replace",
 	}
 
 	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
