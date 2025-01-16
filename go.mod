@@ -1,6 +1,6 @@
 module github.com/pluralsh/polly
 
-go 1.22.0
+go 1.22.11
 
 toolchain go1.23.0
 
