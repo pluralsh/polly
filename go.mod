@@ -2,7 +2,7 @@ module github.com/pluralsh/polly
 
 go 1.22.0
 
-toolchain go1.23.0
+toolchain go1.23.9
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
