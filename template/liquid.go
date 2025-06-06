@@ -39,6 +39,7 @@ var (
 		"downcase",
 		"upcase",
 		"replace",
+		"append",
 	}
 
 	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
