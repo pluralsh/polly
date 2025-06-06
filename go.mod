@@ -11,7 +11,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/yuin/gopher-lua v1.1.1
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.33.0
+	k8s.io/apimachinery v0.33.1
 )
 
 require (
