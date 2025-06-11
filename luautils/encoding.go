@@ -3,6 +3,7 @@ package luautils
 import (
 	"fmt"
 
+	"dario.cat/mergo"
 	lua "github.com/yuin/gopher-lua"
 	"gopkg.in/yaml.v3"
 	"k8s.io/apimachinery/pkg/util/json"
@@ -15,6 +16,7 @@ func RegisterEncodingModule(L *lua.LState) {
 		"jsonDecode": jsonDecode,
 		"yamlEncode": yamlEncode,
 		"yamlDecode": yamlDecode,
+		"merge":      merge,
 	})
 	L.Push(mod)
 }
@@ -23,7 +25,7 @@ func jsonEncode(L *lua.LState) int {
 	value := L.CheckAny(1)
 	goValue := ToGoValue(value)
 
-	sanitized := sanitizeJSONValue(goValue)
+	sanitized := sanitizeValue(goValue)
 
 	jsonBytes, err := json.Marshal(sanitized)
 	if err != nil {
@@ -81,21 +83,44 @@ func yamlDecode(L *lua.LState) int {
 	return 1
 }
 
-func sanitizeJSONValue(val interface{}) interface{} {
+func sanitizeValue(val interface{}) interface{} {
 	switch v := val.(type) {
 	case map[interface{}]interface{}:
 		m := make(map[string]interface{})
 		for key, value := range v {
 			strKey := fmt.Sprintf("%v", key) // Convert key to string
-			m[strKey] = sanitizeJSONValue(value)
+			m[strKey] = sanitizeValue(value)
 		}
 		return m
 	case []interface{}:
 		for i := range v {
-			v[i] = sanitizeJSONValue(v[i])
+			v[i] = sanitizeValue(v[i])
 		}
 		return v
 	default:
 		return v
 	}
+}
+
+func merge(L *lua.LState) int {
+	// Get the destination (first argument)
+	dst := L.CheckTable(1)
+	// Get the source (second argument)
+	src := L.CheckTable(2)
+
+	// Convert Lua tables to Go maps
+	dstMap := ToGoValue(dst).(map[interface{}]interface{})
+	srcMap := ToGoValue(src).(map[interface{}]interface{})
+
+	// Perform deep merge using mergo
+	err := mergo.Merge(&dstMap, srcMap, mergo.WithOverride)
+	if err != nil {
+		L.Push(lua.LNil)
+		L.Push(lua.LString(err.Error()))
+		return 2
+	}
+
+	// Convert back to Lua table and return
+	L.Push(GoValueToLuaValue(L, sanitizeValue(dstMap)))
+	return 1
 }
