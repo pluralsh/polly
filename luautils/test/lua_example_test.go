@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/mitchellh/mapstructure"
 	"github.com/pluralsh/polly/luautils"
 	"github.com/stretchr/testify/assert"
 	lua "github.com/yuin/gopher-lua"
@@ -239,4 +240,74 @@ func TestFileOutsideTheBaseDir(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, values)
 	assert.Equal(t, map[string]interface{}{"access denied": "path outside base directory"}, values["error"])
+}
+
+func TestMerge(t *testing.T) {
+	type SSLConfig struct {
+		Enabled bool   `json:"enabled"`
+		Cert    string `json:"cert"`
+		Key     string `json:"key"`
+	}
+
+	type ServerConfig struct {
+		Host string    `json:"host"`
+		Port int       `json:"port"`
+		SSL  SSLConfig `json:"ssl"`
+	}
+
+	// Test Lua script
+	luaScript := `
+		values = {}	
+		valuesFiles = {}
+		local baseConfig = {
+			server = {
+				host = "localhost",
+				port = 8080,
+				ssl = {enabled = false, cert = "default.crt"}
+			}
+		}
+		
+		local prodOverrides = {
+			server = {
+				host = "0.0.0.0",
+				ssl = {enabled = true, key = "prod.key"}
+			}
+		}
+		
+		local finalConfig = encoding.merge(baseConfig, prodOverrides)
+		values["config"] = finalConfig
+
+		-- Result: {
+		--   server = {
+		--     host = "0.0.0.0",        -- overridden
+		--     port = 8080,             -- preserved from base
+		--     ssl = {
+		--       enabled = true,        -- overridden
+		--       cert = "default.crt",  -- preserved from base
+		--       key = "prod.key"       -- added from override
+		--     }
+		--   }
+		-- }
+	`
+	// Process the Lua script
+	p := NewTestProcessor("../files")
+	values, _, err := p.Process(luaScript)
+	assert.NoError(t, err)
+
+	// Check values
+	assert.NotNil(t, values)
+	var config ServerConfig
+	rawConfig, ok := values["config"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	serverRaw, ok := rawConfig["server"].(map[interface{}]interface{})
+	assert.True(t, ok)
+
+	err = mapstructure.Decode(serverRaw, &config)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "0.0.0.0", config.Host)
+	assert.Equal(t, 8080, config.Port)
+	assert.True(t, config.SSL.Enabled)
+	assert.Equal(t, "default.crt", config.SSL.Cert)
+	assert.Equal(t, "prod.key", config.SSL.Key)
 }
