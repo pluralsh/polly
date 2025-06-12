@@ -1,6 +1,7 @@
 package test
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"testing"
@@ -9,6 +10,7 @@ import (
 	"github.com/pluralsh/polly/luautils"
 	"github.com/stretchr/testify/assert"
 	lua "github.com/yuin/gopher-lua"
+	"gopkg.in/yaml.v2"
 )
 
 type TestProcessor struct {
@@ -85,7 +87,7 @@ func TestGenerateOutput(t *testing.T) {
 func TestComplex(t *testing.T) {
 	// Test Lua script
 	luaScript := `
-		local jsonStr = encoding.jsonEncode(fs.read("simple.json"))
+		local jsonStr = fs.read("simple.json")
 		local data = encoding.jsonDecode(jsonStr)
 		
 		local yamlStr = encoding.yamlEncode({
@@ -102,8 +104,8 @@ func TestComplex(t *testing.T) {
 		values["age"] = 30
 		values["isActive"] = true
 		values["encoded"] = {
-		  json = jsonStr,
-		  yaml = yamlStr
+		  yaml = yamlStr,
+		  json = encoding.jsonEncode(data)
 		}
 		
 		-- Define an array
@@ -146,6 +148,18 @@ func TestComplex(t *testing.T) {
 	assert.Equal(t, values["name"], `John Doe`)
 	assert.Equal(t, values["text"], `hello`)
 	assert.Equal(t, len(valuesFiles), 2)
+
+	encoded := values["encoded"].(map[interface{}]interface{})
+
+	res := map[string]interface{}{}
+	err = yaml.Unmarshal([]byte(encoded["yaml"].(string)), &res)
+	assert.NoError(t, err)
+	assert.Equal(t, res["user"].(map[interface{}]interface{})["name"], "Alice")
+
+	res = map[string]interface{}{}
+	err = json.Unmarshal([]byte(encoded["json"].(string)), &res)
+	assert.NoError(t, err)
+	assert.Equal(t, res["name"], "Alice")
 }
 
 func TestUnsafeOSLib(t *testing.T) {
@@ -239,7 +253,7 @@ func TestFileOutsideTheBaseDir(t *testing.T) {
 	// Check values
 	assert.NoError(t, err)
 	assert.NotNil(t, values)
-	assert.Equal(t, map[string]interface{}{"access denied": "path outside base directory"}, values["error"])
+	assert.Equal(t, `access denied: path outside base directory`, values["error"])
 }
 
 func TestMerge(t *testing.T) {

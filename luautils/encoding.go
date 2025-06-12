@@ -55,6 +55,7 @@ func jsonDecode(L *lua.LState) int {
 func yamlEncode(L *lua.LState) int {
 	value := L.CheckAny(1)
 	goValue := ToGoValue(value)
+	goValue = sanitizeValue(goValue)
 
 	yamlBytes, err := yaml.Marshal(goValue)
 	if err != nil {

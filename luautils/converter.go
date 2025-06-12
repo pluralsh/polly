@@ -58,7 +58,7 @@ func ToGoValue(lv lua.LValue) interface{} {
 	case lua.LBool:
 		return bool(v)
 	case lua.LString:
-		return trimQuotes(string(v))
+		return string(v)
 	case lua.LNumber:
 		return float64(v)
 	case *lua.LTable:
