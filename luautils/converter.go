@@ -112,8 +112,9 @@ func GoValueToLuaValue(L *lua.LState, value interface{}) lua.LValue {
 
 	if rType.Kind() == reflect.Map {
 		table := L.NewTable()
-		for k, item := range value.(map[string]interface{}) {
-			L.RawSet(table, lua.LString(k), GoValueToLuaValue(L, item))
+		s := reflect.ValueOf(value)
+		for _, k := range s.MapKeys() {
+			L.RawSet(table, lua.LString(k.String()), GoValueToLuaValue(L, s.MapIndex(k).Interface()))
 		}
 		return table
 	}
