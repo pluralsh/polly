@@ -274,7 +274,7 @@ func TestMerge(t *testing.T) {
 			}
 		}
 		
-		local finalConfig = encoding.merge(baseConfig, prodOverrides)
+		local finalConfig = utils.merge(baseConfig, prodOverrides)
 		values["config"] = finalConfig
 
 		-- Result: {
@@ -310,4 +310,37 @@ func TestMerge(t *testing.T) {
 	assert.True(t, config.SSL.Enabled)
 	assert.Equal(t, "default.crt", config.SSL.Cert)
 	assert.Equal(t, "prod.key", config.SSL.Key)
+}
+
+func TestSplitString(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+		local parts = utils.splitString("a,b,c", ",")
+		values["parts"] = parts
+	`
+
+	// Process the Lua script
+	p := NewTestProcessor("../files")
+	values, _, err := p.Process(luaScript)
+	assert.NoError(t, err)
+
+	assert.Equal(t, []interface{}{"a", "b", "c"}, values["parts"])
+}
+
+func TestPathJoin(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+		local parts = {"a", "b", "c"}
+		local joined = utils.pathJoin(parts)
+		values["joined"] = joined
+	`
+
+	// Process the Lua script
+	p := NewTestProcessor("../files")
+	values, _, err := p.Process(luaScript)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "a/b/c", values["joined"])
 }

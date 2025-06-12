@@ -38,6 +38,7 @@ func NewProcessor(path string) *Processor {
 	// register custom modules
 	RegisterEncodingModule(L)
 	RegisterFSModule(L)
+	RegisterUtilsModule(L)
 
 	// Set base path
 	SetBasePath(path)
