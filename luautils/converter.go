@@ -3,6 +3,7 @@ package luautils
 import (
 	"errors"
 	"fmt"
+	"reflect"
 	"regexp"
 	"strings"
 
@@ -98,6 +99,25 @@ func GoValueToLuaValue(L *lua.LState, value interface{}) lua.LValue {
 		return lua.LNil
 	}
 
+	rType := reflect.TypeOf(value)
+
+	if rType.Kind() == reflect.Slice || rType.Kind() == reflect.Array {
+		table := L.NewTable()
+		s := reflect.ValueOf(value)
+		for i := 0; i < s.Len(); i++ {
+			L.RawSetInt(table, i+1, GoValueToLuaValue(L, s.Index(i).Interface()))
+		}
+		return table
+	}
+
+	if rType.Kind() == reflect.Map {
+		table := L.NewTable()
+		for k, item := range value.(map[string]interface{}) {
+			L.RawSet(table, lua.LString(k), GoValueToLuaValue(L, item))
+		}
+		return table
+	}
+
 	switch v := value.(type) {
 	case bool:
 		return lua.LBool(v)
@@ -109,18 +129,6 @@ func GoValueToLuaValue(L *lua.LState, value interface{}) lua.LValue {
 		return lua.LNumber(v)
 	case float64:
 		return lua.LNumber(v)
-	case []interface{}:
-		table := L.NewTable()
-		for i, item := range v {
-			L.RawSetInt(table, i+1, GoValueToLuaValue(L, item))
-		}
-		return table
-	case map[string]interface{}:
-		table := L.NewTable()
-		for k, item := range v {
-			L.RawSet(table, lua.LString(k), GoValueToLuaValue(L, item))
-		}
-		return table
 	default:
 		return lua.LString("<unknown>")
 	}
