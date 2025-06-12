@@ -1,7 +1,6 @@
 package luautils
 
 import (
-	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -38,7 +37,6 @@ func splitString(L *lua.LState) int {
 	delim := L.CheckString(2)
 
 	parts := strings.Split(str, delim)
-	fmt.Printf("parts: %v\n", parts)
 	L.Push(GoValueToLuaValue(L, parts))
 	return 1
 }
@@ -69,6 +67,6 @@ func merge(L *lua.LState) int {
 	}
 
 	// Convert back to Lua table and return
-	L.Push(GoValueToLuaValue(L, sanitizeValue(dstMap)))
+	L.Push(GoValueToLuaValue(L, SanitizeValue(dstMap)))
 	return 1
 }

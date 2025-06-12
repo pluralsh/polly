@@ -331,7 +331,9 @@ func TestSplitString(t *testing.T) {
 		values = {}
 		valuesFiles = {}
 		local parts = utils.splitString("a,b,c", ",")
+		local fparts = utils.splitString("lua/fleeta/dev/cluster-a/cluster.yaml", "/")
 		values["parts"] = parts
+		values["fparts"] = fparts
 	`
 
 	// Process the Lua script
@@ -340,8 +342,8 @@ func TestSplitString(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, []interface{}{"a", "b", "c"}, values["parts"])
+	assert.Equal(t, []interface{}{"lua", "fleeta", "dev", "cluster-a", "cluster.yaml"}, values["fparts"])
 }
-
 func TestPathJoin(t *testing.T) {
 	luaScript := `
 		values = {}

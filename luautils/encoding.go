@@ -24,7 +24,7 @@ func jsonEncode(L *lua.LState) int {
 	value := L.CheckAny(1)
 	goValue := ToGoValue(value)
 
-	sanitized := sanitizeValue(goValue)
+	sanitized := SanitizeValue(goValue)
 
 	jsonBytes, err := json.Marshal(sanitized)
 	if err != nil {
@@ -55,7 +55,7 @@ func jsonDecode(L *lua.LState) int {
 func yamlEncode(L *lua.LState) int {
 	value := L.CheckAny(1)
 	goValue := ToGoValue(value)
-	goValue = sanitizeValue(goValue)
+	goValue = SanitizeValue(goValue)
 
 	yamlBytes, err := yaml.Marshal(goValue)
 	if err != nil {
@@ -83,18 +83,18 @@ func yamlDecode(L *lua.LState) int {
 	return 1
 }
 
-func sanitizeValue(val interface{}) interface{} {
+func SanitizeValue(val interface{}) interface{} {
 	switch v := val.(type) {
 	case map[interface{}]interface{}:
 		m := make(map[string]interface{})
 		for key, value := range v {
 			strKey := fmt.Sprintf("%v", key) // Convert key to string
-			m[strKey] = sanitizeValue(value)
+			m[strKey] = SanitizeValue(value)
 		}
 		return m
 	case []interface{}:
 		for i := range v {
-			v[i] = sanitizeValue(v[i])
+			v[i] = SanitizeValue(v[i])
 		}
 		return v
 	default:
