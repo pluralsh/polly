@@ -4,8 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"regexp"
-	"strings"
 
 	"github.com/mitchellh/mapstructure"
 	lua "github.com/yuin/gopher-lua"
@@ -80,17 +78,6 @@ func ToGoValue(lv lua.LValue) interface{} {
 	default:
 		return v
 	}
-}
-
-func trimQuotes(s string) interface{} {
-	parts := strings.Split(s, ": ")
-	if len(parts) == 2 {
-		quoted := strings.TrimSpace(parts[1])
-		quoted = regexp.MustCompile(`^'(.*)'$`).ReplaceAllString(quoted, `$1`)
-		quoted = regexp.MustCompile(`^"(.*)"$`).ReplaceAllString(quoted, `$1`)
-		return map[string]interface{}{strings.TrimSpace(parts[0]): quoted}
-	}
-	return s
 }
 
 // GoValueToLuaValue converts a Go value to a Lua value
