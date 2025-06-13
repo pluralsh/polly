@@ -15,7 +15,6 @@ func RegisterEncodingModule(L *lua.LState) {
 		"jsonDecode": jsonDecode,
 		"yamlEncode": yamlEncode,
 		"yamlDecode": yamlDecode,
-		"merge":      merge,
 	})
 	L.Push(mod)
 }
