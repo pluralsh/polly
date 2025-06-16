@@ -49,9 +49,9 @@ func merge(L *lua.LState) int {
 
 	override := L.OptString(3, "override")
 
-	strategy := mergo.WithOverride
+	opts := []func(*mergo.Config){mergo.WithOverride}
 	if override == "append" {
-		strategy = mergo.WithAppendSlice
+		opts = append(opts, mergo.WithAppendSlice)
 	}
 
 	// Convert Lua tables to Go maps
@@ -59,7 +59,7 @@ func merge(L *lua.LState) int {
 	srcMap := ToGoValue(src).(map[interface{}]interface{})
 
 	// Perform deep merge using mergo
-	err := mergo.Merge(&dstMap, srcMap, strategy)
+	err := mergo.Merge(&dstMap, srcMap, opts...)
 	if err != nil {
 		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
