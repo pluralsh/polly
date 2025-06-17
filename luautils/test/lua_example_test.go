@@ -269,6 +269,11 @@ func TestMerge(t *testing.T) {
 		SSL  SSLConfig `json:"ssl"`
 	}
 
+	type ServerIpConfig struct {
+		IPs  []string `json:"ips"`
+		Name string   `json:"name"`
+	}
+
 	// Test Lua script
 	luaScript := `
 		values = {}	
@@ -291,6 +296,21 @@ func TestMerge(t *testing.T) {
 		local finalConfig = utils.merge(baseConfig, prodOverrides)
 		values["config"] = finalConfig
 
+
+		local baseConfigArray = {
+			server = {
+				name = "base",
+				ips = {"192.168.1.1", "192.168.1.2"}
+			}
+		}
+		local prodOverridesArray = {
+			server = {
+				name = "prod",
+				ips = {"192.168.1.3", "192.168.1.4"}
+			}
+		}
+
+		values["appended"] = utils.merge(baseConfigArray, prodOverridesArray, "append")
 		-- Result: {
 		--   server = {
 		--     host = "0.0.0.0",        -- overridden
@@ -324,6 +344,18 @@ func TestMerge(t *testing.T) {
 	assert.True(t, config.SSL.Enabled)
 	assert.Equal(t, "default.crt", config.SSL.Cert)
 	assert.Equal(t, "prod.key", config.SSL.Key)
+
+	appended, ok := values["appended"].(map[interface{}]interface{})
+	assert.True(t, ok)
+
+	serverRaw, ok = appended["server"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	var ipConfig ServerIpConfig
+	err = mapstructure.Decode(serverRaw, &ipConfig)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "prod", ipConfig.Name)
+	assert.Equal(t, []string{"192.168.1.1", "192.168.1.2", "192.168.1.3", "192.168.1.4"}, ipConfig.IPs)
 }
 
 func TestSplitString(t *testing.T) {
