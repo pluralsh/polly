@@ -147,7 +147,7 @@ func TestComplex(t *testing.T) {
 
 	assert.Equal(t, values["name"], `John Doe`)
 	assert.Equal(t, values["text"], `hello`)
-	assert.Equal(t, len(valuesFiles), 2)
+	assert.Equal(t, len(valuesFiles), 3)
 
 	encoded := values["encoded"].(map[interface{}]interface{})
 
@@ -391,4 +391,42 @@ func TestPathJoin(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "a/b/c", values["joined"])
+}
+
+func TestJSONSchema(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local validData = {
+			name = "John Doe",
+			age = 30,
+			email = "john.doe@example.com"
+		}
+
+		local invalidData = {
+			name = "John Doe",
+			age = -5, -- Invalid age (below 0)
+			email = "not-an-email" -- Invalid email format
+		}
+
+		-- Validate validData
+		local isValid, err = encoding.jsonSchema(validData, "test_schema.json")
+		assert(isValid == true, "Expected validData to be valid, but got error: " .. (err or "nil"))
+
+		-- Validate invalidData
+		local isValidInvalid, errInvalid = encoding.jsonSchema(invalidData, "test_schema.json")
+		assert(isValidInvalid == false, "Expected invalidData to be invalid")
+		assert(errInvalid ~= nil, "Expected validation error for invalidData, but got nil")
+
+	`
+	dir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	fullPath := filepath.Join(dir, "files")
+	// Process the Lua script
+	p := NewTestProcessor(fullPath)
+	_, _, err = p.Process(luaScript)
+	assert.NoError(t, err)
+
 }
