@@ -2,6 +2,10 @@ package luautils
 
 import (
 	"fmt"
+	"os"
+	"strings"
+
+	"github.com/xeipuuv/gojsonschema"
 
 	lua "github.com/yuin/gopher-lua"
 	"gopkg.in/yaml.v3"
@@ -15,8 +19,71 @@ func RegisterEncodingModule(L *lua.LState) {
 		"jsonDecode": jsonDecode,
 		"yamlEncode": yamlEncode,
 		"yamlDecode": yamlDecode,
+		"jsonSchema": jsonSchema,
 	})
 	L.Push(mod)
+}
+
+// jsonSchema validates a Lua table against a JSON schema file.
+// Usage: encoding.jsonSchema(struct, "path/to/schema.json")
+func jsonSchema(L *lua.LState) int {
+	// Get arguments
+	luaValue := L.CheckAny(1)      // Lua value to validate
+	schemaPath := L.CheckString(2) // JSON schema file path
+
+	// Validate and clean the path
+	cleanPath, err := validatePath(schemaPath)
+	if err != nil {
+		L.Push(lua.LFalse)
+		L.Push(lua.LString(err.Error()))
+		return 2
+	}
+
+	// Read the JSON schema file
+	schemaBytes, err := os.ReadFile(cleanPath)
+	if err != nil {
+		L.Push(lua.LFalse)
+		L.Push(lua.LString(fmt.Sprintf("Failed to read schema file: %v", err)))
+		return 2
+	}
+
+	// Parse the schema file
+	schemaLoader := gojsonschema.NewBytesLoader(schemaBytes)
+
+	// Convert Lua value to Go native value
+	goValue := ToGoValue(luaValue)
+	sanitized := SanitizeValue(goValue) // Sanitize nested structures
+	// Marshal the value to JSON (required by gojsonschema)
+	jsonBytes, err := json.Marshal(sanitized)
+	if err != nil {
+		L.Push(lua.LFalse)
+		L.Push(lua.LString(fmt.Sprintf("Failed to marshal Lua value to JSON: %v", err)))
+		return 2
+	}
+	documentLoader := gojsonschema.NewBytesLoader(jsonBytes)
+
+	// Perform schema validation
+	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	if err != nil {
+		L.Push(lua.LFalse)
+		L.Push(lua.LString(fmt.Sprintf("Schema validation error: %v", err)))
+		return 2
+	}
+
+	// Check validation result
+	if result.Valid() {
+		L.Push(lua.LTrue)
+		L.Push(lua.LNil)
+	} else {
+		L.Push(lua.LFalse)
+		// Collect validation errors
+		var errorMessages []string
+		for _, validationError := range result.Errors() {
+			errorMessages = append(errorMessages, validationError.String())
+		}
+		L.Push(lua.LString(strings.Join(errorMessages, "\n")))
+	}
+	return 2
 }
 
 func jsonEncode(L *lua.LState) int {
