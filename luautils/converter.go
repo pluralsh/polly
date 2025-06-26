@@ -28,9 +28,16 @@ func NewMapper() *Mapper {
 func (mapper *Mapper) Map(tbl *lua.LTable, st interface{}) error {
 	goValue := ToGoValue(tbl)
 
+	stVal := reflect.ValueOf(st)
+	if stVal.Kind() != reflect.Ptr || stVal.IsNil() {
+		return errors.New("st must be a non-nil pointer")
+	}
+
+	stElem := stVal.Elem()
+	stKind := stElem.Kind()
+
 	var config = &mapstructure.DecoderConfig{
-		WeaklyTypedInput: true,
-		Result:           st,
+		Result: st,
 	}
 
 	decoder, err := mapstructure.NewDecoder(config)
@@ -40,8 +47,16 @@ func (mapper *Mapper) Map(tbl *lua.LTable, st interface{}) error {
 
 	switch v := goValue.(type) {
 	case map[interface{}]interface{}:
+		if stKind != reflect.Struct && stKind != reflect.Map {
+			stElem.Set(reflect.Zero(stElem.Type()))
+			return nil
+		}
 		return decoder.Decode(v)
 	case []interface{}:
+		if stKind != reflect.Slice && stKind != reflect.Array {
+			stElem.Set(reflect.Zero(stElem.Type()))
+			return nil
+		}
 		return decoder.Decode(v)
 	default:
 		return errors.New("unsupported table format: expected map or array")
