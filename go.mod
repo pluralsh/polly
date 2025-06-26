@@ -3,7 +3,7 @@ module github.com/pluralsh/polly
 go 1.24.2
 
 require (
-	dario.cat/mergo v1.0.1
+	dario.cat/mergo v1.0.2
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/mitchellh/mapstructure v1.5.0
