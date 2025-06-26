@@ -430,3 +430,29 @@ func TestJSONSchema(t *testing.T) {
 	assert.NoError(t, err)
 
 }
+
+func TestBoolAssignments(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+		values["a"] = true
+		values["b"] = false
+		values["c"] = "false" -- string
+		values["d"] = "true" -- string
+	`
+
+	// Directory setup
+	dir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	fullPath := filepath.Join(dir, "files")
+
+	// Process the Lua script; capture returned values
+	p := NewTestProcessor(fullPath)
+	values, _, err := p.Process(luaScript)
+	assert.NoError(t, err)
+	assert.Equal(t, true, values["a"])
+	assert.Equal(t, false, values["b"])
+	assert.Equal(t, "false", values["c"])
+	assert.Equal(t, "true", values["d"])
+}
