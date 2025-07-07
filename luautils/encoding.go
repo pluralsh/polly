@@ -13,26 +13,26 @@ import (
 )
 
 // RegisterEncodingModule registers the encoding module functions
-func RegisterEncodingModule(L *lua.LState) {
+func RegisterEncodingModule(processor *Processor, L *lua.LState) {
 	mod := L.RegisterModule("encoding", map[string]lua.LGFunction{
 		"jsonEncode": jsonEncode,
 		"jsonDecode": jsonDecode,
 		"yamlEncode": yamlEncode,
 		"yamlDecode": yamlDecode,
-		"jsonSchema": jsonSchema,
+		"jsonSchema": processor.jsonSchema,
 	})
 	L.Push(mod)
 }
 
 // jsonSchema validates a Lua table against a JSON schema file.
 // Usage: encoding.jsonSchema(struct, "path/to/schema.json")
-func jsonSchema(L *lua.LState) int {
+func (p *Processor) jsonSchema(L *lua.LState) int {
 	// Get arguments
 	luaValue := L.CheckAny(1)      // Lua value to validate
 	schemaPath := L.CheckString(2) // JSON schema file path
 
 	// Validate and clean the path
-	cleanPath, err := validatePath(schemaPath)
+	cleanPath, err := p.validatePath(schemaPath)
 	if err != nil {
 		L.Push(lua.LFalse)
 		L.Push(lua.LString(err.Error()))
