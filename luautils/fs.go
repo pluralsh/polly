@@ -9,27 +9,20 @@ import (
 	lua "github.com/yuin/gopher-lua"
 )
 
-var basePath string
-
-// SetBasePath sets the base path for file operations
-func SetBasePath(path string) {
-	basePath = path
-}
-
 // RegisterFSModule registers the fs module functions
-func RegisterFSModule(L *lua.LState) {
+func RegisterFSModule(processor *Processor, L *lua.LState) {
 	mod := L.RegisterModule("fs", map[string]lua.LGFunction{
-		"read": fsRead,
-		"walk": fsWalk,
+		"read": processor.fsRead,
+		"walk": processor.fsWalk,
 	})
 	L.Push(mod)
 }
 
-func fsRead(L *lua.LState) int {
+func (p *Processor) fsRead(L *lua.LState) int {
 	filePath := L.CheckString(1)
 
 	// Validate and clean the path
-	cleanPath, err := validatePath(filePath)
+	cleanPath, err := p.validatePath(filePath)
 	if err != nil {
 		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
@@ -47,11 +40,11 @@ func fsRead(L *lua.LState) int {
 	return 1
 }
 
-func fsWalk(L *lua.LState) int {
+func (p *Processor) fsWalk(L *lua.LState) int {
 	dir := L.CheckString(1)
 
 	// Validate and clean the path
-	cleanPath, err := validatePath(dir)
+	cleanPath, err := p.validatePath(dir)
 	if err != nil {
 		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
@@ -65,7 +58,7 @@ func fsWalk(L *lua.LState) int {
 		}
 		if !info.IsDir() {
 			// Convert absolute path to relative path from base directory
-			relPath, err := filepath.Rel(basePath, path)
+			relPath, err := filepath.Rel(p.BasePath, path)
 			if err != nil {
 				return err
 			}
@@ -90,15 +83,15 @@ func fsWalk(L *lua.LState) int {
 	return 1
 }
 
-func validatePath(path string) (string, error) {
-	if basePath == "" {
+func (p *Processor) validatePath(path string) (string, error) {
+	if p.BasePath == "" {
 		return "", fmt.Errorf("base path not set")
 	}
 	// Clean the path and resolve relative components
-	cleanPath := filepath.Clean(filepath.Join(basePath, path))
+	cleanPath := filepath.Clean(filepath.Join(p.BasePath, path))
 
 	// Ensure the path is within the base directory
-	if !strings.HasPrefix(cleanPath, basePath) {
+	if !strings.HasPrefix(cleanPath, p.BasePath) {
 		return "", fmt.Errorf("access denied: path outside base directory")
 	}
 
