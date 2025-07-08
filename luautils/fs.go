@@ -66,14 +66,17 @@ func (p *Processor) fsWalk(L *lua.LState) int {
 			return nil // continue walking
 		}
 
-		if ignoreDotfiles && strings.HasPrefix(info.Name(), ".") {
-			return nil // skip this file
-		}
-
 		// Convert absolute path to relative path from base directory
 		relPath, err := filepath.Rel(p.BasePath, path)
 		if err != nil {
 			return err
+		}
+		if ignoreDotfiles {
+			parts := strings.Split(relPath, string(os.PathSeparator))
+			lenParts := len(parts)
+			if lenParts > 0 && strings.HasPrefix(parts[lenParts-1], ".") {
+				return nil // skip
+			}
 		}
 		files = append(files, relPath)
 		return nil
