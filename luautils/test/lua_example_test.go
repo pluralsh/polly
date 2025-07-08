@@ -147,7 +147,7 @@ func TestComplex(t *testing.T) {
 
 	assert.Equal(t, values["name"], `John Doe`)
 	assert.Equal(t, values["text"], `hello`)
-	assert.Equal(t, len(valuesFiles), 3)
+	assert.Equal(t, len(valuesFiles), 6)
 
 	encoded := values["encoded"].(map[interface{}]interface{})
 
@@ -455,4 +455,34 @@ func TestBoolAssignments(t *testing.T) {
 	assert.Equal(t, false, values["b"])
 	assert.Equal(t, "false", values["c"])
 	assert.Equal(t, "true", values["d"])
+}
+
+func TestIgnoreDotfiles(t *testing.T) {
+	// Test Lua script
+	luaScript := `
+		-- Define values
+		values = {}
+		-- Define values files
+		valuesFiles = {}
+
+		-- Walk and ignore dotfiles
+		local files = fs.walk(".", true)
+		for i, file in ipairs(files) do
+   	 		table.insert(valuesFiles, file)
+		end
+	`
+
+	// Process the Lua script
+	dir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	fullPath := filepath.Join(dir, "files")
+
+	p := NewTestProcessor(fullPath)
+	values, valuesFiles, err := p.Process(luaScript)
+	assert.NoError(t, err)
+
+	assert.NotNil(t, valuesFiles)
+	assert.NotNil(t, values)
+	assert.Equal(t, 4, len(valuesFiles))
 }
