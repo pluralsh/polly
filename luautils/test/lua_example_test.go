@@ -26,30 +26,31 @@ func NewTestProcessor(filePath string) *TestProcessor {
 
 // Process takes a Lua script as a string and returns values and file paths
 func (p *TestProcessor) Process(luaScript string) (map[string]interface{}, []string, error) {
-	defer p.L.Close()
+	L := p.NewLuaState()
+	defer L.Close()
 
 	// Initialize empty results
 	values := make(map[string]interface{})
 	var valuesFiles []string
 
 	// Register global values and valuesFiles in Lua
-	valuesTable := p.L.NewTable()
-	p.L.SetGlobal("values", valuesTable)
+	valuesTable := L.NewTable()
+	L.SetGlobal("values", valuesTable)
 
-	valuesFilesTable := p.L.NewTable()
-	p.L.SetGlobal("valuesFiles", valuesFilesTable)
+	valuesFilesTable := L.NewTable()
+	L.SetGlobal("valuesFiles", valuesFilesTable)
 
 	// Execute the Lua script
-	err := p.L.DoString(luaScript)
+	err := L.DoString(luaScript)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	if err := luautils.MapLua(p.L.GetGlobal("values").(*lua.LTable), &values); err != nil {
+	if err := luautils.MapLua(L.GetGlobal("values").(*lua.LTable), &values); err != nil {
 		return nil, nil, err
 	}
 
-	if err := luautils.MapLua(p.L.GetGlobal("valuesFiles").(*lua.LTable), &valuesFiles); err != nil {
+	if err := luautils.MapLua(L.GetGlobal("valuesFiles").(*lua.LTable), &valuesFiles); err != nil {
 		return nil, nil, err
 	}
 
