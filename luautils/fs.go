@@ -43,6 +43,12 @@ func (p *Processor) fsRead(L *lua.LState) int {
 func (p *Processor) fsWalk(L *lua.LState) int {
 	dir := L.CheckString(1)
 
+	// Optional setting: ignore dotfiles
+	ignoreDotfiles := false
+	if L.GetTop() >= 2 {
+		ignoreDotfiles = L.CheckBool(2)
+	}
+
 	// Validate and clean the path
 	cleanPath, err := p.validatePath(dir)
 	if err != nil {
@@ -56,14 +62,23 @@ func (p *Processor) fsWalk(L *lua.LState) int {
 		if err != nil {
 			return err
 		}
-		if !info.IsDir() {
-			// Convert absolute path to relative path from base directory
-			relPath, err := filepath.Rel(p.BasePath, path)
-			if err != nil {
-				return err
-			}
-			files = append(files, relPath)
+		if info.IsDir() {
+			return nil // continue walking
 		}
+
+		// Convert absolute path to relative path from base directory
+		relPath, err := filepath.Rel(p.BasePath, path)
+		if err != nil {
+			return err
+		}
+		if ignoreDotfiles {
+			parts := strings.Split(relPath, string(os.PathSeparator))
+			lenParts := len(parts)
+			if lenParts > 0 && strings.HasPrefix(parts[lenParts-1], ".") {
+				return nil // skip
+			}
+		}
+		files = append(files, relPath)
 		return nil
 	})
 
