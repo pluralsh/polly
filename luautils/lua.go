@@ -9,11 +9,7 @@ type Processor struct {
 	BasePath string
 }
 
-func NewProcessor(path string) *Processor {
-	return &Processor{BasePath: path}
-}
-
-func (p *Processor) NewLuaState() *lua.LState {
+func NewLuaState(path string) *lua.LState {
 	L := lua.NewState(lua.Options{
 		SkipOpenLibs: true,
 	})
@@ -37,7 +33,7 @@ func (p *Processor) NewLuaState() *lua.LState {
 			panic(err)
 		}
 	}
-
+	p := &Processor{BasePath: path}
 	// Register custom modules
 	RegisterEncodingModule(p, L)
 	RegisterFSModule(p, L)
