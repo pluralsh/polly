@@ -13,20 +13,9 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type TestProcessor struct {
-	*luautils.Processor
-}
-
-func NewTestProcessor(filePath string) *TestProcessor {
-	p := luautils.NewProcessor(filePath)
-	return &TestProcessor{
-		Processor: p,
-	}
-}
-
 // Process takes a Lua script as a string and returns values and file paths
-func (p *TestProcessor) Process(luaScript string) (map[string]interface{}, []string, error) {
-	L := p.NewLuaState()
+func Process(path, luaScript string) (map[string]interface{}, []string, error) {
+	L := luautils.NewLuaState(path)
 	defer L.Close()
 
 	// Initialize empty results
@@ -68,8 +57,7 @@ func TestGenerateOutput(t *testing.T) {
 	`
 
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, valuesFiles, err := p.Process(luaScript)
+	values, valuesFiles, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	// Check values
@@ -139,8 +127,7 @@ func TestComplex(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	values, valuesFiles, err := p.Process(luaScript)
+	values, valuesFiles, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
 	assert.NotNil(t, valuesFiles)
@@ -182,8 +169,7 @@ func TestUnsafeOSLib(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	_, _, err = p.Process(luaScript)
+	_, _, err = Process(fullPath, luaScript)
 
 	// Check values
 	assert.Error(t, err)
@@ -220,8 +206,7 @@ func TestUnsafeReadFile(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	_, _, err = p.Process(luaScript)
+	_, _, err = Process(fullPath, luaScript)
 
 	// Check values
 	assert.Error(t, err)
@@ -248,8 +233,7 @@ func TestFileOutsideTheBaseDir(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process(fullPath, luaScript)
 
 	// Check values
 	assert.NoError(t, err)
@@ -325,8 +309,7 @@ func TestMerge(t *testing.T) {
 		-- }
 	`
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	// Check values
@@ -370,8 +353,7 @@ func TestSplitString(t *testing.T) {
 	`
 
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	assert.Equal(t, []interface{}{"a", "b", "c"}, values["parts"])
@@ -387,8 +369,7 @@ func TestPathJoin(t *testing.T) {
 	`
 
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "a/b/c", values["joined"])
@@ -426,8 +407,7 @@ func TestJSONSchema(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 	// Process the Lua script
-	p := NewTestProcessor(fullPath)
-	_, _, err = p.Process(luaScript)
+	_, _, err = Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
 }
@@ -449,8 +429,7 @@ func TestBoolAssignments(t *testing.T) {
 	fullPath := filepath.Join(dir, "files")
 
 	// Process the Lua script; capture returned values
-	p := NewTestProcessor(fullPath)
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 	assert.Equal(t, true, values["a"])
 	assert.Equal(t, false, values["b"])
@@ -479,8 +458,7 @@ func TestIgnoreDotfiles(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	values, valuesFiles, err := p.Process(luaScript)
+	values, valuesFiles, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
 	assert.NotNil(t, valuesFiles)
@@ -509,8 +487,7 @@ func TestIgnoreDotfilesSubPath(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	values, valuesFiles, err := p.Process(luaScript)
+	values, valuesFiles, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
 	assert.NotNil(t, valuesFiles)
