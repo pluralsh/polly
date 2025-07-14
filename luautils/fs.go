@@ -62,8 +62,15 @@ func (p *Processor) fsWalk(L *lua.LState) int {
 		if err != nil {
 			return err
 		}
+
+		// Ignore dotfile directories and their contents
+		if info.IsDir() && ignoreDotfiles && strings.HasPrefix(info.Name(), ".") {
+			return filepath.SkipDir // Skip this directory and its children
+		}
+
+		// Skip non-files (directories are skipped above)
 		if info.IsDir() {
-			return nil // continue walking
+			return nil // Continue walking
 		}
 
 		// Convert absolute path to relative path from base directory
@@ -71,13 +78,12 @@ func (p *Processor) fsWalk(L *lua.LState) int {
 		if err != nil {
 			return err
 		}
-		if ignoreDotfiles {
-			parts := strings.Split(relPath, string(os.PathSeparator))
-			lenParts := len(parts)
-			if lenParts > 0 && strings.HasPrefix(parts[lenParts-1], ".") {
-				return nil // skip
-			}
+
+		// Skip dotfiles if requested
+		if ignoreDotfiles && strings.HasPrefix(filepath.Base(relPath), ".") {
+			return nil // Skip dotfile
 		}
+
 		files = append(files, relPath)
 		return nil
 	})

@@ -463,7 +463,7 @@ func TestIgnoreDotfiles(t *testing.T) {
 
 	assert.NotNil(t, valuesFiles)
 	assert.NotNil(t, values)
-	assert.Equal(t, 4, len(valuesFiles))
+	assert.Equal(t, 3, len(valuesFiles))
 }
 
 func TestIgnoreDotfilesSubPath(t *testing.T) {
@@ -490,7 +490,6 @@ func TestIgnoreDotfilesSubPath(t *testing.T) {
 	values, valuesFiles, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
-	assert.NotNil(t, valuesFiles)
+	assert.Nil(t, valuesFiles)
 	assert.NotNil(t, values)
-	assert.Equal(t, 1, len(valuesFiles))
 }
