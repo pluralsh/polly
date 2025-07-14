@@ -6,12 +6,10 @@ import (
 
 // Processor handles Lua script processing
 type Processor struct {
-	L        *lua.LState
 	BasePath string
 }
 
-// NewProcessor creates a new Lua script processor
-func NewProcessor(path string) *Processor {
+func NewLuaState(path string) *lua.LState {
 	L := lua.NewState(lua.Options{
 		SkipOpenLibs: true,
 	})
@@ -35,16 +33,11 @@ func NewProcessor(path string) *Processor {
 			panic(err)
 		}
 	}
-
-	processor := &Processor{
-		L:        L,
-		BasePath: path,
-	}
-
-	// register custom modules
-	RegisterEncodingModule(processor, L)
-	RegisterFSModule(processor, L)
+	p := &Processor{BasePath: path}
+	// Register custom modules
+	RegisterEncodingModule(p, L)
+	RegisterFSModule(p, L)
 	RegisterUtilsModule(L)
 
-	return processor
+	return L
 }

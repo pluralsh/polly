@@ -13,43 +13,33 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type TestProcessor struct {
-	*luautils.Processor
-}
-
-func NewTestProcessor(filePath string) *TestProcessor {
-	p := luautils.NewProcessor(filePath)
-	return &TestProcessor{
-		Processor: p,
-	}
-}
-
 // Process takes a Lua script as a string and returns values and file paths
-func (p *TestProcessor) Process(luaScript string) (map[string]interface{}, []string, error) {
-	defer p.L.Close()
+func Process(path, luaScript string) (map[string]interface{}, []string, error) {
+	L := luautils.NewLuaState(path)
+	defer L.Close()
 
 	// Initialize empty results
 	values := make(map[string]interface{})
 	var valuesFiles []string
 
 	// Register global values and valuesFiles in Lua
-	valuesTable := p.L.NewTable()
-	p.L.SetGlobal("values", valuesTable)
+	valuesTable := L.NewTable()
+	L.SetGlobal("values", valuesTable)
 
-	valuesFilesTable := p.L.NewTable()
-	p.L.SetGlobal("valuesFiles", valuesFilesTable)
+	valuesFilesTable := L.NewTable()
+	L.SetGlobal("valuesFiles", valuesFilesTable)
 
 	// Execute the Lua script
-	err := p.L.DoString(luaScript)
+	err := L.DoString(luaScript)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	if err := luautils.MapLua(p.L.GetGlobal("values").(*lua.LTable), &values); err != nil {
+	if err := luautils.MapLua(L.GetGlobal("values").(*lua.LTable), &values); err != nil {
 		return nil, nil, err
 	}
 
-	if err := luautils.MapLua(p.L.GetGlobal("valuesFiles").(*lua.LTable), &valuesFiles); err != nil {
+	if err := luautils.MapLua(L.GetGlobal("valuesFiles").(*lua.LTable), &valuesFiles); err != nil {
 		return nil, nil, err
 	}
 
@@ -67,8 +57,7 @@ func TestGenerateOutput(t *testing.T) {
 	`
 
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, valuesFiles, err := p.Process(luaScript)
+	values, valuesFiles, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	// Check values
@@ -138,8 +127,7 @@ func TestComplex(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	values, valuesFiles, err := p.Process(luaScript)
+	values, valuesFiles, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
 	assert.NotNil(t, valuesFiles)
@@ -147,7 +135,7 @@ func TestComplex(t *testing.T) {
 
 	assert.Equal(t, values["name"], `John Doe`)
 	assert.Equal(t, values["text"], `hello`)
-	assert.Equal(t, len(valuesFiles), 3)
+	assert.Equal(t, len(valuesFiles), 6)
 
 	encoded := values["encoded"].(map[interface{}]interface{})
 
@@ -181,8 +169,7 @@ func TestUnsafeOSLib(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	_, _, err = p.Process(luaScript)
+	_, _, err = Process(fullPath, luaScript)
 
 	// Check values
 	assert.Error(t, err)
@@ -219,8 +206,7 @@ func TestUnsafeReadFile(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	_, _, err = p.Process(luaScript)
+	_, _, err = Process(fullPath, luaScript)
 
 	// Check values
 	assert.Error(t, err)
@@ -247,8 +233,7 @@ func TestFileOutsideTheBaseDir(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 
-	p := NewTestProcessor(fullPath)
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process(fullPath, luaScript)
 
 	// Check values
 	assert.NoError(t, err)
@@ -324,8 +309,7 @@ func TestMerge(t *testing.T) {
 		-- }
 	`
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	// Check values
@@ -369,8 +353,7 @@ func TestSplitString(t *testing.T) {
 	`
 
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	assert.Equal(t, []interface{}{"a", "b", "c"}, values["parts"])
@@ -386,8 +369,7 @@ func TestPathJoin(t *testing.T) {
 	`
 
 	// Process the Lua script
-	p := NewTestProcessor("../files")
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "a/b/c", values["joined"])
@@ -425,8 +407,7 @@ func TestJSONSchema(t *testing.T) {
 
 	fullPath := filepath.Join(dir, "files")
 	// Process the Lua script
-	p := NewTestProcessor(fullPath)
-	_, _, err = p.Process(luaScript)
+	_, _, err = Process(fullPath, luaScript)
 	assert.NoError(t, err)
 
 }
@@ -448,11 +429,67 @@ func TestBoolAssignments(t *testing.T) {
 	fullPath := filepath.Join(dir, "files")
 
 	// Process the Lua script; capture returned values
-	p := NewTestProcessor(fullPath)
-	values, _, err := p.Process(luaScript)
+	values, _, err := Process(fullPath, luaScript)
 	assert.NoError(t, err)
 	assert.Equal(t, true, values["a"])
 	assert.Equal(t, false, values["b"])
 	assert.Equal(t, "false", values["c"])
 	assert.Equal(t, "true", values["d"])
+}
+
+func TestIgnoreDotfiles(t *testing.T) {
+	// Test Lua script
+	luaScript := `
+		-- Define values
+		values = {}
+		-- Define values files
+		valuesFiles = {}
+
+		-- Walk and ignore dotfiles
+		local files = fs.walk(".", true)
+		for i, file in ipairs(files) do
+   	 		table.insert(valuesFiles, file)
+		end
+	`
+
+	// Process the Lua script
+	dir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	fullPath := filepath.Join(dir, "files")
+
+	values, valuesFiles, err := Process(fullPath, luaScript)
+	assert.NoError(t, err)
+
+	assert.NotNil(t, valuesFiles)
+	assert.NotNil(t, values)
+	assert.Equal(t, 3, len(valuesFiles))
+}
+
+func TestIgnoreDotfilesSubPath(t *testing.T) {
+	// Test Lua script
+	luaScript := `
+		-- Define values
+		values = {}
+		-- Define values files
+		valuesFiles = {}
+
+		-- Walk and ignore dotfiles
+		local files = fs.walk("./.hidden", true)
+		for i, file in ipairs(files) do
+   	 		table.insert(valuesFiles, file)
+		end
+	`
+
+	// Process the Lua script
+	dir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	fullPath := filepath.Join(dir, "files")
+
+	values, valuesFiles, err := Process(fullPath, luaScript)
+	assert.NoError(t, err)
+
+	assert.Nil(t, valuesFiles)
+	assert.NotNil(t, values)
 }
