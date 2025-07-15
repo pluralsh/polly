@@ -101,38 +101,73 @@ func GoValueToLuaValue(L *lua.LState, value interface{}) lua.LValue {
 		return lua.LNil
 	}
 
-	rType := reflect.TypeOf(value)
+	rv := reflect.ValueOf(value)
+	if !rv.IsValid() || (rv.Kind() == reflect.Ptr && rv.IsNil()) {
+		return lua.LNil
+	}
 
-	if rType.Kind() == reflect.Slice || rType.Kind() == reflect.Array {
+	// Handle pointer dereferencing
+	for rv.Kind() == reflect.Ptr {
+		if rv.IsNil() {
+			return lua.LNil
+		}
+		rv = rv.Elem()
+	}
+
+	rt := rv.Type()
+
+	switch rv.Kind() {
+	case reflect.Map:
+		if rv.IsNil() {
+			return lua.LNil
+		}
 		table := L.NewTable()
-		s := reflect.ValueOf(value)
-		for i := 0; i < s.Len(); i++ {
-			L.RawSetInt(table, i+1, GoValueToLuaValue(L, s.Index(i).Interface()))
+		for _, key := range rv.MapKeys() {
+			keyStr := fmt.Sprint(key.Interface())
+			val := rv.MapIndex(key).Interface()
+			L.RawSet(table, lua.LString(keyStr), GoValueToLuaValue(L, val))
+		}
+		return table
+
+	case reflect.Slice, reflect.Array:
+		if rv.IsNil() {
+			return lua.LNil
+		}
+		table := L.NewTable()
+		for i := 0; i < rv.Len(); i++ {
+			L.RawSetInt(table, i+1, GoValueToLuaValue(L, rv.Index(i).Interface()))
+		}
+		return table
+
+	case reflect.Struct:
+		table := L.NewTable()
+		for i := 0; i < rt.NumField(); i++ {
+			field := rt.Field(i)
+			if field.PkgPath != "" { // skip unexported
+				continue
+			}
+			fieldVal := rv.Field(i).Interface()
+			L.RawSet(table, lua.LString(field.Name), GoValueToLuaValue(L, fieldVal))
 		}
 		return table
 	}
 
-	if rType.Kind() == reflect.Map {
-		table := L.NewTable()
-		s := reflect.ValueOf(value)
-		for _, k := range s.MapKeys() {
-			L.RawSet(table, lua.LString(k.String()), GoValueToLuaValue(L, s.MapIndex(k).Interface()))
-		}
-		return table
-	}
-
-	switch v := value.(type) {
+	// Handle primitive types
+	switch v := rv.Interface().(type) {
 	case bool:
 		return lua.LBool(v)
 	case string:
 		return lua.LString(v)
-	case int:
-		return lua.LNumber(v)
-	case int64:
-		return lua.LNumber(v)
-	case float64:
-		return lua.LNumber(v)
-	default:
-		return lua.LString("<unknown>")
+	case int, int8, int16, int32, int64:
+		return lua.LNumber(reflect.ValueOf(v).Int())
+	case uint, uint8, uint16, uint32, uint64:
+		return lua.LNumber(reflect.ValueOf(v).Uint())
+	case float32, float64:
+		return lua.LNumber(reflect.ValueOf(v).Float())
+	case fmt.Stringer:
+		return lua.LString(v.String())
 	}
+
+	// Fallback: convert to string
+	return lua.LString(fmt.Sprintf("%v", rv.Interface()))
 }
