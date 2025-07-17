@@ -42,11 +42,8 @@ func splitString(L *lua.LState) int {
 }
 
 func merge(L *lua.LState) int {
-	// Get the destination (first argument)
-	dst := L.CheckTable(1)
-	// Get the source (second argument)
-	src := L.CheckTable(2)
-
+	dst := L.CheckTable(1) // Get the destination (first argument)
+	src := L.CheckTable(2) // Get the source (second argument)
 	override := L.OptString(3, "override")
 
 	opts := []func(*mergo.Config){mergo.WithOverride}
