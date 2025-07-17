@@ -396,10 +396,10 @@ func TestMergeWithAppend(t *testing.T) {
 
 	assert.Nil(t, values["err"], "Expected no error during merge")
 
-	rawConfig, ok := values["config"].(map[string]any)
+	rawConfig, ok := values["config"].(map[any]any)
 	assert.True(t, ok)
 
-	raw, ok := rawConfig["argocd"].(map[string]any)
+	raw, ok := rawConfig["argocd"].(map[any]any)
 	assert.True(t, ok)
 
 	var argoCD ArgoCD
