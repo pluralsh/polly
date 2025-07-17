@@ -381,7 +381,7 @@ func TestMergeWithAppend(t *testing.T) {
 
 
 		local mergedConfig, err = utils.merge(baseConfig, prodOverrides, "append")
-		print("mergedConfig: ", mergedConfig)
+		print("mergedConfig: ", encoding.jsonEncode(mergedConfig))
 		print("err: ", err)
 
 		values["config"] = mergedConfig
