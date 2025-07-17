@@ -342,7 +342,7 @@ func TestMerge(t *testing.T) {
 	assert.Equal(t, []string{"192.168.1.1", "192.168.1.2", "192.168.1.3", "192.168.1.4"}, ipConfig.IPs)
 }
 
-func TestMergeWithAppend(t *testing.T) {
+func TestMergeWithAppendToEmptySlice(t *testing.T) {
 	type ClusterAccess struct {
 		AdminGroups []string `json:"adminGroups"`
 	}
