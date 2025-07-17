@@ -342,6 +342,75 @@ func TestMerge(t *testing.T) {
 	assert.Equal(t, []string{"192.168.1.1", "192.168.1.2", "192.168.1.3", "192.168.1.4"}, ipConfig.IPs)
 }
 
+func TestMergeWithAppend(t *testing.T) {
+	type ClusterAccess struct {
+		AdminGroups []string `json:"adminGroups"`
+	}
+
+	type Configs struct {
+		ClusterAccess ClusterAccess `json:"clusterAccess"`
+	}
+
+	type ArgoCD struct {
+		Configs Configs `json:"configs"`
+	}
+
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local baseConfig = {
+			argocd = {
+				configs = {
+					clusterAccess = {
+						adminGroups = {}
+					}
+				}
+			}
+		}
+	
+		local prodOverrides = {
+			argocd = {
+				configs = {
+					clusterAccess = {
+						adminGroups = {"test"}
+					}
+				}
+			}
+		}
+
+
+		local mergedConfig, err = utils.merge(baseConfig, prodOverrides, "append")
+		print("mergedConfig: ", mergedConfig)
+		print("err: ", err)
+
+		values["config"] = mergedConfig
+		values["err"] = err
+	`
+	// Process the Lua script
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+
+	// Check for errors
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	rawConfig, ok := values["config"].(map[string]any)
+	assert.True(t, ok)
+
+	raw, ok := rawConfig["argocd"].(map[string]any)
+	assert.True(t, ok)
+
+	var argoCD ArgoCD
+	err = mapstructure.Decode(raw, &argoCD)
+	assert.NoError(t, err)
+	assert.NotNil(t, argoCD.Configs)
+	assert.NotNil(t, argoCD.Configs.ClusterAccess)
+	assert.Len(t, argoCD.Configs.ClusterAccess.AdminGroups, 1)
+	assert.Equal(t, argoCD.Configs.ClusterAccess.AdminGroups, []string{"test"})
+}
+
 func TestSplitString(t *testing.T) {
 	luaScript := `
 		values = {}
