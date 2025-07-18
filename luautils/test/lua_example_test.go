@@ -412,10 +412,6 @@ func TestMergeWithAppendToEmptySlice(t *testing.T) {
 }
 
 func TestMergeWithEmptySliceOverride(t *testing.T) {
-	type ClusterAccess struct {
-		AdminGroups []string `json:"adminGroups"`
-	}
-
 	luaScript := `
 		values = {}
 		valuesFiles = {}
@@ -432,19 +428,16 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 			}
 		}
 
-
-		local result, err = utils.merge(base, patch)
+		local result, err = utils.merge(base, patch, "append")
 		print("result: ", encoding.jsonEncode(result))
 		print("err: ", err)
 
 		values["config"] = result
 		values["err"] = err
 	`
-	// Process the Lua script
+
 	values, _, err := Process("../files", luaScript)
 	assert.NoError(t, err)
-
-	// Check for errors
 	assert.NotNil(t, values)
 
 	assert.Nil(t, values["err"], "Expected no error during merge")
@@ -452,12 +445,13 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 	rawConfig, ok := values["config"].(map[any]any)
 	assert.True(t, ok)
 
-	var ca ClusterAccess
-	err = mapstructure.Decode(rawConfig, &ca)
-	assert.NoError(t, err)
-	assert.NotNil(t, ca)
-	assert.Len(t, ca.AdminGroups, 0)
-	assert.Equal(t, []string{}, ca.AdminGroups)
+	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[any]any)
+	assert.True(t, ok)
+
+	adminGroups, ok := clusterAccessMap["adminGroups"]
+	assert.True(t, ok)
+	assert.Empty(t, adminGroups)
+	assert.NotNil(t, adminGroups)
 }
 
 func TestSplitString(t *testing.T) {
