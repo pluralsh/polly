@@ -87,7 +87,7 @@ func ToGoValue(lv lua.LValue) interface{} {
 
 			// Handles edge case where the in Lua table/array was defined as empty {}.
 			// In that case we return nil instead of empty map/slice as the type is not known.
-			if x := v.RawGetInt(0); x == lua.LNil && len(ret) == 0 {
+			if len(ret) == 0 {
 				return nil
 			}
 
