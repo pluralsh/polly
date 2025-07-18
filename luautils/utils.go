@@ -52,7 +52,7 @@ func merge(L *lua.LState) int {
 	}
 
 	// Convert Lua tables to Go maps
-	dstMap := ToGoValue(dst).(map[interface{}]interface{})
+	dstMap := ToGoValueWithoutEmptyTables(dst).(map[interface{}]interface{})
 	srcMap := ToGoValue(src).(map[interface{}]interface{})
 
 	// Perform deep merge using mergo

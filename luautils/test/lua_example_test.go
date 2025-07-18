@@ -420,24 +420,24 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 		values = {}
 		valuesFiles = {}
 
-		local baseConfig = {
+		local base = {
 			clusterAccess = {
 				adminGroups = {"test"}
 			}
 		}
 	
-		local prodOverrides = {
+		local patch = {
 			clusterAccess = {
 				adminGroups = {}
 			}
 		}
 
 
-		local mergedConfig, err = utils.merge(baseConfig, prodOverrides, "override")
-		print("mergedConfig: ", encoding.jsonEncode(mergedConfig))
+		local result, err = utils.merge(base, patch)
+		print("result: ", encoding.jsonEncode(result))
 		print("err: ", err)
 
-		values["config"] = mergedConfig
+		values["config"] = result
 		values["err"] = err
 	`
 	// Process the Lua script
