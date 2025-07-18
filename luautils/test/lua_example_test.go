@@ -411,6 +411,55 @@ func TestMergeWithAppendToEmptySlice(t *testing.T) {
 	assert.Equal(t, argoCD.Configs.ClusterAccess.AdminGroups, []string{"test"})
 }
 
+func TestMergeWithEmptySliceOverride(t *testing.T) {
+	type ClusterAccess struct {
+		AdminGroups []string `json:"adminGroups"`
+	}
+
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local baseConfig = {
+			clusterAccess = {
+				adminGroups = {"test"}
+			}
+		}
+	
+		local prodOverrides = {
+			clusterAccess = {
+				adminGroups = {}
+			}
+		}
+
+
+		local mergedConfig, err = utils.merge(baseConfig, prodOverrides, "override")
+		print("mergedConfig: ", encoding.jsonEncode(mergedConfig))
+		print("err: ", err)
+
+		values["config"] = mergedConfig
+		values["err"] = err
+	`
+	// Process the Lua script
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+
+	// Check for errors
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	rawConfig, ok := values["config"].(map[any]any)
+	assert.True(t, ok)
+
+	var ca ClusterAccess
+	err = mapstructure.Decode(rawConfig, &ca)
+	assert.NoError(t, err)
+	assert.NotNil(t, ca)
+	assert.Len(t, ca.AdminGroups, 0)
+	assert.Equal(t, ca.AdminGroups, []string{})
+}
+
 func TestSplitString(t *testing.T) {
 	luaScript := `
 		values = {}
