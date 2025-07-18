@@ -42,11 +42,8 @@ func splitString(L *lua.LState) int {
 }
 
 func merge(L *lua.LState) int {
-	// Get the destination (first argument)
-	dst := L.CheckTable(1)
-	// Get the source (second argument)
-	src := L.CheckTable(2)
-
+	dst := L.CheckTable(1) // Get the destination (first argument)
+	src := L.CheckTable(2) // Get the source (second argument)
 	override := L.OptString(3, "override")
 
 	opts := []func(*mergo.Config){mergo.WithOverride}
@@ -55,7 +52,13 @@ func merge(L *lua.LState) int {
 	}
 
 	// Convert Lua tables to Go maps
-	dstMap := ToGoValue(dst).(map[interface{}]interface{})
+	var dstMap (map[interface{}]interface{})
+	if override == "append" {
+		dstMap = ToGoValueWithoutEmptyTables(dst).(map[interface{}]interface{})
+	} else {
+		dstMap = ToGoValue(dst).(map[interface{}]interface{})
+	}
+
 	srcMap := ToGoValue(src).(map[interface{}]interface{})
 
 	// Perform deep merge using mergo
