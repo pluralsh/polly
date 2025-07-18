@@ -408,7 +408,7 @@ func TestMergeWithAppendToEmptySlice(t *testing.T) {
 	assert.NotNil(t, argoCD.Configs)
 	assert.NotNil(t, argoCD.Configs.ClusterAccess)
 	assert.Len(t, argoCD.Configs.ClusterAccess.AdminGroups, 1)
-	assert.Equal(t, argoCD.Configs.ClusterAccess.AdminGroups, []string{"test"})
+	assert.Equal(t, []string{"test"}, argoCD.Configs.ClusterAccess.AdminGroups)
 }
 
 func TestMergeWithEmptySliceOverride(t *testing.T) {
@@ -457,7 +457,7 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, ca)
 	assert.Len(t, ca.AdminGroups, 0)
-	assert.Equal(t, ca.AdminGroups, []string{})
+	assert.Equal(t, []string{}, ca.AdminGroups)
 }
 
 func TestSplitString(t *testing.T) {
