@@ -465,7 +465,7 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 	userGroups, ok := clusterAccessMap["userGroups"]
 	assert.True(t, ok)
 	assert.NotNil(t, userGroups)
-	assert.NotEmpty(t, userGroups)
+	assert.Len(t, userGroups, 2)
 }
 
 func TestMergeWithYamlDecode(t *testing.T) {
