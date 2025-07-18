@@ -418,17 +418,19 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 
 		local base = {
 			clusterAccess = {
-				adminGroups = {"test"}
+				adminGroups = {"test"},
+				userGroups = {}
 			}
 		}
 	
 		local patch = {
 			clusterAccess = {
-				adminGroups = {}
+				adminGroups = {},
+				userGroups = {"user1", "user2"}
 			}
 		}
 
-		local result, err = utils.merge(base, patch, "append")
+		local result, err = utils.merge(base, patch)
 		print("result: ", encoding.jsonEncode(result))
 		print("err: ", err)
 
@@ -448,6 +450,76 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[any]any)
 	assert.True(t, ok)
 
+	adminGroups, ok := clusterAccessMap["adminGroups"]
+	assert.True(t, ok)
+	assert.Empty(t, adminGroups)
+	assert.NotNil(t, adminGroups)
+
+	userGroups, ok := clusterAccessMap["userGroups"]
+	assert.True(t, ok)
+	assert.NotNil(t, userGroups)
+	assert.NotEmpty(t, userGroups)
+}
+
+func TestMergeWithYamlDecode(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local baseYaml = [[
+clusterAccess:
+  adminGroups:
+    - "admin"
+    - "devops"
+  userGroups: []
+]]
+
+		local patchYaml = [[
+clusterAccess:
+  adminGroups: []
+  userGroups:
+	- "user1"
+	- "user2"
+]]
+
+		local base = encoding.yamlDecode(baseYaml)
+		local patch = encoding.yamlDecode(patchYaml)
+
+		local result, err = utils.merge(base, patch, "append")
+		print("result: ", encoding.jsonEncode(result))
+		print("err: ", err)
+
+		values["config"] = result
+		values["err"] = err
+		values["base"] = base
+		values["patch"] = patch
+	`
+
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	baseConfig, ok := values["base"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	baseCluster := baseConfig["clusterAccess"].(map[interface{}]interface{})
+	baseGroups := baseCluster["adminGroups"].([]interface{})
+	assert.Len(t, baseGroups, 2)
+	assert.Equal(t, "admin", baseGroups[0])
+	assert.Equal(t, "devops", baseGroups[1])
+
+	patchConfig, ok := values["patch"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	patchCluster := patchConfig["clusterAccess"].(map[interface{}]interface{})
+	patchGroups := patchCluster["adminGroups"]
+	assert.NotNil(t, patchGroups)
+	assert.Empty(t, patchGroups)
+
+	rawConfig, ok := values["config"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[interface{}]interface{})
+	assert.True(t, ok)
 	adminGroups, ok := clusterAccessMap["adminGroups"]
 	assert.True(t, ok)
 	assert.Empty(t, adminGroups)
