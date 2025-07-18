@@ -66,7 +66,7 @@ func (mapper *Mapper) Map(tbl *lua.LTable, st interface{}) error {
 }
 
 // ToGoValue converts the given LValue to a Go object.
-func ToGoValue(lv lua.LValue) interface{} {
+func ToGoValue(lv lua.LValue) any {
 	switch v := lv.(type) {
 	case *lua.LNilType:
 		return nil
@@ -79,10 +79,9 @@ func ToGoValue(lv lua.LValue) interface{} {
 	case *lua.LTable:
 		maxn := v.MaxN()
 		if maxn == 0 { // table (or empty array)
-			ret := make(map[interface{}]interface{})
+			ret := make(map[any]any)
 			v.ForEach(func(key, value lua.LValue) {
-				keystr := fmt.Sprint(ToGoValue(key))
-				ret[keystr] = ToGoValue(value)
+				ret[fmt.Sprint(ToGoValue(key))] = ToGoValue(value)
 			})
 
 			// Handles edge case where the in Lua table/array was defined as empty {}.
@@ -93,10 +92,11 @@ func ToGoValue(lv lua.LValue) interface{} {
 
 			return ret
 		} else { // array (with elements)
-			ret := make([]interface{}, 0, maxn)
-			for i := 1; i <= maxn; i++ {
-				ret = append(ret, ToGoValue(v.RawGetInt(i)))
-			}
+			ret := make([]any, 0, maxn)
+			v.ForEach(func(key, value lua.LValue) {
+				ret = append(ret, ToGoValue(value))
+			})
+
 			return ret
 		}
 	default:
