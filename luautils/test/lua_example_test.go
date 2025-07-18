@@ -342,9 +342,10 @@ func TestMerge(t *testing.T) {
 	assert.Equal(t, []string{"192.168.1.1", "192.168.1.2", "192.168.1.3", "192.168.1.4"}, ipConfig.IPs)
 }
 
-func TestMergeWithAppendToEmptySlice(t *testing.T) {
+func TestMergeWithEmptySliceAppend(t *testing.T) {
 	type ClusterAccess struct {
 		AdminGroups []string `json:"adminGroups"`
+		UserGroups  []string `json:"userGroups"`
 	}
 
 	type Configs struct {
@@ -363,7 +364,8 @@ func TestMergeWithAppendToEmptySlice(t *testing.T) {
 			argocd = {
 				configs = {
 					clusterAccess = {
-						adminGroups = {}
+						adminGroups = {},
+						userGroups = {"user1", "user2"}
 					}
 				}
 			}
@@ -373,7 +375,8 @@ func TestMergeWithAppendToEmptySlice(t *testing.T) {
 			argocd = {
 				configs = {
 					clusterAccess = {
-						adminGroups = {"test"}
+						adminGroups = {"test"},
+						userGroups = null -- Using empty table/array {} is not allowed here
 					}
 				}
 			}
@@ -407,8 +410,12 @@ func TestMergeWithAppendToEmptySlice(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, argoCD.Configs)
 	assert.NotNil(t, argoCD.Configs.ClusterAccess)
+
 	assert.Len(t, argoCD.Configs.ClusterAccess.AdminGroups, 1)
 	assert.Equal(t, []string{"test"}, argoCD.Configs.ClusterAccess.AdminGroups)
+
+	assert.Len(t, argoCD.Configs.ClusterAccess.UserGroups, 2)
+	assert.Equal(t, []string{"user1", "user2"}, argoCD.Configs.ClusterAccess.UserGroups)
 }
 
 func TestMergeWithEmptySliceOverride(t *testing.T) {
@@ -476,10 +483,11 @@ clusterAccess:
 
 		local patchYaml = [[
 clusterAccess:
-  adminGroups: []
+  adminGroups: 
+    - "test"
   userGroups:
-	- "user1"
-	- "user2"
+    - "user1"
+    - "user2"
 ]]
 
 		local base = encoding.yamlDecode(baseYaml)
@@ -514,7 +522,7 @@ clusterAccess:
 	patchCluster := patchConfig["clusterAccess"].(map[interface{}]interface{})
 	patchGroups := patchCluster["adminGroups"]
 	assert.NotNil(t, patchGroups)
-	assert.Empty(t, patchGroups)
+	assert.Len(t, patchGroups, 1)
 
 	rawConfig, ok := values["config"].(map[interface{}]interface{})
 	assert.True(t, ok)
@@ -522,7 +530,7 @@ clusterAccess:
 	assert.True(t, ok)
 	adminGroups, ok := clusterAccessMap["adminGroups"]
 	assert.True(t, ok)
-	assert.Empty(t, adminGroups)
+	assert.Len(t, adminGroups, 3)
 	assert.NotNil(t, adminGroups)
 }
 
