@@ -46,10 +46,7 @@ func merge(L *lua.LState) int {
 	src := L.CheckTable(2) // Get the source (second argument)
 	override := L.OptString(3, "override")
 
-	opts := []func(*mergo.Config){}
-	if override == "override" {
-		opts = append(opts, mergo.WithOverride)
-	}
+	opts := []func(*mergo.Config){mergo.WithOverride}
 	if override == "append" {
 		opts = append(opts, mergo.WithAppendSlice)
 	}

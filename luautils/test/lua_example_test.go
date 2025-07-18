@@ -296,17 +296,6 @@ func TestMerge(t *testing.T) {
 		}
 
 		values["appended"] = utils.merge(baseConfigArray, prodOverridesArray, "append")
-		-- Result: {
-		--   server = {
-		--     host = "0.0.0.0",        -- overridden
-		--     port = 8080,             -- preserved from base
-		--     ssl = {
-		--       enabled = true,        -- overridden
-		--       cert = "default.crt",  -- preserved from base
-		--       key = "prod.key"       -- added from override
-		--     }
-		--   }
-		-- }
 	`
 	// Process the Lua script
 	values, _, err := Process("../files", luaScript)
