@@ -58,13 +58,15 @@ func (mapper *Mapper) Map(tbl *lua.LTable, st interface{}) error {
 			return nil
 		}
 		return decoder.Decode(v)
+	case nil:
+		return nil
 	default:
 		return errors.New("unsupported table format: expected map or array")
 	}
 }
 
 // ToGoValue converts the given LValue to a Go object.
-func ToGoValue(lv lua.LValue) interface{} {
+func ToGoValue(lv lua.LValue) any {
 	switch v := lv.(type) {
 	case *lua.LNilType:
 		return nil
@@ -76,18 +78,56 @@ func ToGoValue(lv lua.LValue) interface{} {
 		return float64(v)
 	case *lua.LTable:
 		maxn := v.MaxN()
-		if maxn == 0 { // table
-			ret := make(map[interface{}]interface{})
+		if maxn == 0 { // table (or empty array)
+			ret := make(map[any]any)
 			v.ForEach(func(key, value lua.LValue) {
-				keystr := fmt.Sprint(ToGoValue(key))
-				ret[keystr] = ToGoValue(value)
+				ret[fmt.Sprint(ToGoValue(key))] = ToGoValue(value)
 			})
 			return ret
-		} else { // array
-			ret := make([]interface{}, 0, maxn)
-			for i := 1; i <= maxn; i++ {
-				ret = append(ret, ToGoValue(v.RawGetInt(i)))
+		} else { // array (with elements)
+			ret := make([]any, 0, maxn)
+			v.ForEach(func(key, value lua.LValue) {
+				ret = append(ret, ToGoValue(value))
+			})
+			return ret
+		}
+	default:
+		return v
+	}
+}
+
+// ToGoValueWithoutEmptyTables converts the given LValue to a Go object.
+// It returns nil for empty tables or arrays, instead of an empty map or slice.
+func ToGoValueWithoutEmptyTables(lv lua.LValue) any {
+	switch v := lv.(type) {
+	case *lua.LNilType:
+		return nil
+	case lua.LBool:
+		return bool(v)
+	case lua.LString:
+		return string(v)
+	case lua.LNumber:
+		return float64(v)
+	case *lua.LTable:
+		maxn := v.MaxN()
+		if maxn == 0 { // table (or empty array)
+			ret := make(map[any]any)
+			v.ForEach(func(key, value lua.LValue) {
+				ret[fmt.Sprint(ToGoValueWithoutEmptyTables(key))] = ToGoValueWithoutEmptyTables(value)
+			})
+
+			// Handles edge case where the table/array was defined as empty {} in Lua script.
+			// In that case we return nil instead of empty map/slice as the type is not known.
+			if len(ret) == 0 {
+				return nil
 			}
+
+			return ret
+		} else { // array (with elements)
+			ret := make([]any, 0, maxn)
+			v.ForEach(func(key, value lua.LValue) {
+				ret = append(ret, ToGoValueWithoutEmptyTables(value))
+			})
 			return ret
 		}
 	default:

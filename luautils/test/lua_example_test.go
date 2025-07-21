@@ -296,17 +296,6 @@ func TestMerge(t *testing.T) {
 		}
 
 		values["appended"] = utils.merge(baseConfigArray, prodOverridesArray, "append")
-		-- Result: {
-		--   server = {
-		--     host = "0.0.0.0",        -- overridden
-		--     port = 8080,             -- preserved from base
-		--     ssl = {
-		--       enabled = true,        -- overridden
-		--       cert = "default.crt",  -- preserved from base
-		--       key = "prod.key"       -- added from override
-		--     }
-		--   }
-		-- }
 	`
 	// Process the Lua script
 	values, _, err := Process("../files", luaScript)
@@ -340,6 +329,198 @@ func TestMerge(t *testing.T) {
 
 	assert.Equal(t, "prod", ipConfig.Name)
 	assert.Equal(t, []string{"192.168.1.1", "192.168.1.2", "192.168.1.3", "192.168.1.4"}, ipConfig.IPs)
+}
+
+func TestMergeWithEmptySliceAppend(t *testing.T) {
+	type ClusterAccess struct {
+		AdminGroups []string `json:"adminGroups"`
+		UserGroups  []string `json:"userGroups"`
+	}
+
+	type Configs struct {
+		ClusterAccess ClusterAccess `json:"clusterAccess"`
+	}
+
+	type ArgoCD struct {
+		Configs Configs `json:"configs"`
+	}
+
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local baseConfig = {
+			argocd = {
+				configs = {
+					clusterAccess = {
+						adminGroups = {},
+						userGroups = {"user1", "user2"}
+					}
+				}
+			}
+		}
+	
+		local prodOverrides = {
+			argocd = {
+				configs = {
+					clusterAccess = {
+						adminGroups = {"test"},
+						userGroups = null -- Using empty table/array {} is not allowed here
+					}
+				}
+			}
+		}
+
+
+		local mergedConfig, err = utils.merge(baseConfig, prodOverrides, "append")
+		print("mergedConfig: ", encoding.jsonEncode(mergedConfig))
+		print("err: ", err)
+
+		values["config"] = mergedConfig
+		values["err"] = err
+	`
+	// Process the Lua script
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+
+	// Check for errors
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	rawConfig, ok := values["config"].(map[any]any)
+	assert.True(t, ok)
+
+	raw, ok := rawConfig["argocd"].(map[any]any)
+	assert.True(t, ok)
+
+	var argoCD ArgoCD
+	err = mapstructure.Decode(raw, &argoCD)
+	assert.NoError(t, err)
+	assert.NotNil(t, argoCD.Configs)
+	assert.NotNil(t, argoCD.Configs.ClusterAccess)
+
+	assert.Len(t, argoCD.Configs.ClusterAccess.AdminGroups, 1)
+	assert.Equal(t, []string{"test"}, argoCD.Configs.ClusterAccess.AdminGroups)
+
+	assert.Len(t, argoCD.Configs.ClusterAccess.UserGroups, 2)
+	assert.Equal(t, []string{"user1", "user2"}, argoCD.Configs.ClusterAccess.UserGroups)
+}
+
+func TestMergeWithEmptySliceOverride(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local base = {
+			clusterAccess = {
+				adminGroups = {"test"},
+				userGroups = {}
+			}
+		}
+	
+		local patch = {
+			clusterAccess = {
+				adminGroups = {},
+				userGroups = {"user1", "user2"}
+			}
+		}
+
+		local result, err = utils.merge(base, patch)
+		print("result: ", encoding.jsonEncode(result))
+		print("err: ", err)
+
+		values["config"] = result
+		values["err"] = err
+	`
+
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	rawConfig, ok := values["config"].(map[any]any)
+	assert.True(t, ok)
+
+	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[any]any)
+	assert.True(t, ok)
+
+	adminGroups, ok := clusterAccessMap["adminGroups"]
+	assert.True(t, ok)
+	assert.Empty(t, adminGroups)
+	assert.NotNil(t, adminGroups)
+
+	userGroups, ok := clusterAccessMap["userGroups"]
+	assert.True(t, ok)
+	assert.NotNil(t, userGroups)
+	assert.Len(t, userGroups, 2)
+}
+
+func TestMergeWithYamlDecode(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local baseYaml = [[
+clusterAccess:
+  adminGroups:
+    - "admin"
+    - "devops"
+  userGroups: []
+]]
+
+		local patchYaml = [[
+clusterAccess:
+  adminGroups: 
+    - "test"
+  userGroups:
+    - "user1"
+    - "user2"
+]]
+
+		local base = encoding.yamlDecode(baseYaml)
+		local patch = encoding.yamlDecode(patchYaml)
+
+		local result, err = utils.merge(base, patch, "append")
+		print("result: ", encoding.jsonEncode(result))
+		print("err: ", err)
+
+		values["config"] = result
+		values["err"] = err
+		values["base"] = base
+		values["patch"] = patch
+	`
+
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	baseConfig, ok := values["base"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	baseCluster := baseConfig["clusterAccess"].(map[interface{}]interface{})
+	baseGroups := baseCluster["adminGroups"].([]interface{})
+	assert.Len(t, baseGroups, 2)
+	assert.Equal(t, "admin", baseGroups[0])
+	assert.Equal(t, "devops", baseGroups[1])
+
+	patchConfig, ok := values["patch"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	patchCluster := patchConfig["clusterAccess"].(map[interface{}]interface{})
+	patchGroups := patchCluster["adminGroups"]
+	assert.NotNil(t, patchGroups)
+	assert.Len(t, patchGroups, 1)
+
+	rawConfig, ok := values["config"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[interface{}]interface{})
+	assert.True(t, ok)
+	adminGroups, ok := clusterAccessMap["adminGroups"]
+	assert.True(t, ok)
+	assert.Len(t, adminGroups, 3)
+	assert.NotNil(t, adminGroups)
 }
 
 func TestSplitString(t *testing.T) {
