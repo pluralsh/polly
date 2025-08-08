@@ -33,7 +33,7 @@ func NewPager[T any](pageSize int64, fetchPage FetchPageFunc[T]) *Pager[T] {
 
 func (p *Pager[T]) NextPage() ([]T, error) {
 	var list []T
-	
+
 	if !p.pageInfo.HasNext {
 		return nil, nil
 	}

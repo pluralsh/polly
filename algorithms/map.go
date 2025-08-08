@@ -1,5 +1,11 @@
 package algorithms
 
+import (
+	"sort"
+
+	"github.com/samber/lo"
+)
+
 func MapValues[K comparable, V any](m map[K]V) []V {
 	s := make([]V, 0, len(m))
 	for _, v := range m {
@@ -44,4 +50,31 @@ func deepMerge(m1, m2 map[string]interface{}) map[string]interface{} {
 		out[k] = v
 	}
 	return out
+}
+
+func SortMap(input map[string]interface{}) map[string]interface{} {
+	sorted := make(map[string]interface{})
+	keys := lo.Keys(input)
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		v := input[k]
+		switch t := v.(type) {
+		case map[string]interface{}:
+			sorted[k] = SortMapRecursive(t)
+		case []interface{}:
+			sortedSlice := make([]interface{}, len(t))
+			for i, item := range t {
+				if m, ok := item.(map[string]interface{}); ok {
+					sortedSlice[i] = SortMapRecursive(m)
+				} else {
+					sortedSlice[i] = item
+				}
+			}
+			sorted[k] = sortedSlice
+		default:
+			sorted[k] = v
+		}
+	}
+	return sorted
 }
