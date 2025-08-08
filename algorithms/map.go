@@ -61,12 +61,12 @@ func SortMap(input map[string]interface{}) map[string]interface{} {
 		v := input[k]
 		switch t := v.(type) {
 		case map[string]interface{}:
-			sorted[k] = SortMapRecursive(t)
+			sorted[k] = SortMap(t)
 		case []interface{}:
 			sortedSlice := make([]interface{}, len(t))
 			for i, item := range t {
 				if m, ok := item.(map[string]interface{}); ok {
-					sortedSlice[i] = SortMapRecursive(m)
+					sortedSlice[i] = SortMap(m)
 				} else {
 					sortedSlice[i] = item
 				}
