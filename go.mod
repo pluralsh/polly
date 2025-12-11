@@ -7,6 +7,7 @@ require (
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/mitchellh/mapstructure v1.5.0
+	github.com/orcaman/concurrent-map/v2 v2.0.1
 	github.com/osteele/liquid v1.6.0
 	github.com/samber/lo v1.50.0
 	github.com/stretchr/testify v1.10.0
