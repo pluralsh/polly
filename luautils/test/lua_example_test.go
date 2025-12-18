@@ -457,6 +457,96 @@ func TestMergeWithEmptySliceOverride(t *testing.T) {
 	assert.Len(t, userGroups, 2)
 }
 
+func TestMergeWithEmptyBaseOverride(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local base = {}
+	
+		local patch = {
+			clusterAccess = {
+				adminGroups = {},
+				userGroups = {"user1", "user2"}
+			}
+		}
+
+		local result, err = utils.merge(base, patch)
+		print("result: ", encoding.jsonEncode(result))
+		print("err: ", err)
+
+		values["config"] = result
+		values["err"] = err
+	`
+
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	rawConfig, ok := values["config"].(map[any]any)
+	assert.True(t, ok)
+
+	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[any]any)
+	assert.True(t, ok)
+
+	adminGroups, ok := clusterAccessMap["adminGroups"]
+	assert.True(t, ok)
+	assert.Empty(t, adminGroups)
+	assert.NotNil(t, adminGroups)
+
+	userGroups, ok := clusterAccessMap["userGroups"]
+	assert.True(t, ok)
+	assert.NotNil(t, userGroups)
+	assert.Len(t, userGroups, 2)
+}
+
+func TestMergeWithEmptyBaseAppend(t *testing.T) {
+	luaScript := `
+		values = {}
+		valuesFiles = {}
+
+		local base = {}
+	
+		local patch = {
+			clusterAccess = {
+				adminGroups = {},
+				userGroups = {"user1", "user2"}
+			}
+		}
+
+		local result, err = utils.merge(base, patch, "append")
+		print("result: ", encoding.jsonEncode(result))
+		print("err: ", err)
+
+		values["config"] = result
+		values["err"] = err
+	`
+
+	values, _, err := Process("../files", luaScript)
+	assert.NoError(t, err)
+	assert.NotNil(t, values)
+
+	assert.Nil(t, values["err"], "Expected no error during merge")
+
+	rawConfig, ok := values["config"].(map[any]any)
+	assert.True(t, ok)
+
+	clusterAccessMap, ok := rawConfig["clusterAccess"].(map[any]any)
+	assert.True(t, ok)
+
+	adminGroups, ok := clusterAccessMap["adminGroups"]
+	assert.True(t, ok)
+	assert.Empty(t, adminGroups)
+	assert.NotNil(t, adminGroups)
+
+	userGroups, ok := clusterAccessMap["userGroups"]
+	assert.True(t, ok)
+	assert.NotNil(t, userGroups)
+	assert.Len(t, userGroups, 2)
+}
+
 func TestMergeWithYamlDecode(t *testing.T) {
 	luaScript := `
 		values = {}
