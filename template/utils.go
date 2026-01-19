@@ -1,9 +1,60 @@
 package template
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 )
+
+func slice(v any, indices ...int) (any, error) {
+	if v == nil {
+		return nil, fmt.Errorf("slice input can't be nil value")
+	}
+
+	rv := reflect.ValueOf(v)
+	// Handle pointers
+	if rv.Kind() == reflect.Ptr {
+		if rv.IsNil() {
+			return nil, fmt.Errorf("slice input can't be nil pointer")
+		}
+		rv = rv.Elem()
+	}
+
+	// Ensure we are working with a Slice, Array, or String
+	if rv.Kind() != reflect.Slice && rv.Kind() != reflect.Array && rv.Kind() != reflect.String {
+		return nil, fmt.Errorf("wrong slice type %T", v)
+	}
+
+	l := rv.Len()
+	start := 0
+	end := l
+
+	if len(indices) > 0 {
+		start = indices[0]
+	}
+	if len(indices) > 1 {
+		end = indices[1]
+	}
+
+	// Your logic: Safe bounds checking
+	if start < 0 {
+		start = 0
+	}
+	if end < 0 {
+		end = 0
+	}
+	if start > l {
+		start = l
+	}
+	if end > l {
+		end = l
+	}
+	if start > end {
+		start = end
+	}
+
+	return rv.Slice(start, end).Interface(), nil
+}
 
 func indent(v string, spaces int) string {
 	pad := strings.Repeat(" ", spaces)

@@ -40,6 +40,7 @@ var (
 		"upcase",
 		"replace",
 		"append",
+		"slice",
 	}
 
 	// sprigFunctionNameAliases contains additional aliases for Sprig functions.
@@ -60,6 +61,7 @@ var (
 		"replace": strings.ReplaceAll,
 		"default": dfault,
 		"ternary": ternary,
+		"slice":   slice,
 	}
 
 	// registeredFunctions contains information about all registered template functions.

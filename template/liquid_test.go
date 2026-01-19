@@ -26,3 +26,18 @@ func TestAppendFunctionNotOverridden(t *testing.T) {
 	_, exists := filters["append"]
 	assert.True(t, !exists, "append function should not be registered as it is excluded from Sprig functions")
 }
+
+func TestRenderLiquidSliceShouldReturnError(t *testing.T) {
+	// 'nonexistent' is not in the bindings, so Liquid passes nil to the slice filter.
+	// Sprig v3 panics when reflection is performed on this nil value.
+	input := []byte(`{{ nonexistent | slice: 0, 1 }}`)
+	bindings := map[string]interface{}{
+		"existing_var": "hello",
+	}
+
+	assert.NotPanics(t, func() {
+		_, err := template.RenderLiquid(input, bindings)
+		assert.Error(t, err)
+
+	}, "RenderLiquid should handle nil filter inputs without crashing the process")
+}
